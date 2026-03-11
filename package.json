@@ -1,0 +1,29 @@
+{
+  "name": "project-inventory-application",
+  "version": "1.0.0",
+  "description": "A small inventory app in Express in accordance with The Odin Project's NodeJS course.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node --watch app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bowman025/project-inventory-application.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/bowman025/project-inventory-application/issues"
+  },
+  "homepage": "https://github.com/bowman025/project-inventory-application#readme",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.1",
+    "pg": "^8.20.0"
+  }
+}
