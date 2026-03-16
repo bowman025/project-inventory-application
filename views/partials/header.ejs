@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="/styles.css">
+	<title><%= title %></title>
+</head>
+<body>
+  <header>
+		<h1><a href="/">Top Rated Game Inventory</a></h1>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/films">Games</a></li>
+        <li><a href="/developers">Developers</a></li>
+        <li><a href="/genres">Genres</a></li>
+        <li>
+          <search>
+            <form action="/search" method="get">
+              <label for="game">
+                <input type="search" id="game" name="q">
+                <button type="submit">Search</button>
+              </label>
+            </form>
+          </search>
+        </li>
+      </ul>
+    </nav>
+	</header>

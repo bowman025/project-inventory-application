@@ -1,0 +1,14 @@
+<%- include('../partials/header') %>
+<main>
+  <h1>Games</h1>
+  <ul>
+    <% games.forEach(game => { %>
+      <li style="background-image: url('<%= game.background %>');">
+        <img src="<%= game.image %>" alt="">
+        <p>Game: <%= game.name %></p> 
+        <p>Description: <%= game.description %></p>
+      </li>
+    <% }); %>
+  </ul>
+</main>
+<%- include('../partials/footer') %>
