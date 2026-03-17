@@ -5,7 +5,8 @@
     <% if (games && games.length > 0) { %>
       <% games.forEach(game => { %>
         <li>
-          <%= game.name %>
+          <p><%= game.name %></p>
+          <p><a href="/games/<%= game.id %>">Details</a></p>
         </li>
       <% }); %>
     <% } %>

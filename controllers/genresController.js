@@ -8,4 +8,15 @@ async function genresGet(req, res) {
   });
 }
 
-module.exports = { genresGet, };
+async function gamesByGenreGet(req, res) {
+  const genreId = req.params.id;
+  const games = await db.getAllGamesByGenre(genreId);
+  const genreName = await db.getGenreName(genreId);
+  res.render('genreGames', {
+    title: `Games in ${genreName}`,
+    games: games,
+    genreName: genreName,
+  });
+}
+
+module.exports = { genresGet, gamesByGenreGet };

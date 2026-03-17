@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+<main>
+  <h1><%= game.name %></h1>
+  <div class="genres">
+    <strong>Genres:</strong>
+    <% game.genre_list.forEach(genre => { %>
+      <% if (genre.id) { %>
+        <a href="/genres/<%= genre.id %>" class="genre-tag">
+          <%= genre.name %>
+        </a>
+      <% } %>
+    <% }); %>
+  </div>
+  <p><strong>Developers:</strong> <%= game.developer_names.join(', ') %></p>
+  <div class="description">
+    <%= game.description %>
+  </div>
+</main>
+<%- include('../partials/footer') %>

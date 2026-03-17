@@ -8,4 +8,13 @@ async function gamesGet(req, res) {
   });
 }
 
-module.exports = { gamesGet, };
+async function gameGet(req, res) {
+  const gameId = req.params.id;
+  const game = await db.getGame(gameId);
+  res.render('gameDetail', {
+    title: game.name,
+    game: game,
+  });
+}
+
+module.exports = { gamesGet, gameGet };

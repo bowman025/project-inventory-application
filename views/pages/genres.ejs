@@ -5,7 +5,9 @@
     <% if (genres && genres.length > 0) { %>
       <% genres.forEach(genre => { %>
         <li>
-          <%= genre.name %>
+          <a href="/genres/<%= genre.id %>">
+            <%= genre.name %>
+          </a>
         </li>
       <% }); %>
     <% } %>

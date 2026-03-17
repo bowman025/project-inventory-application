@@ -5,7 +5,7 @@
     <% if (developers && developers.length > 0) { %>
       <% developers.forEach(developer => { %>
         <li>
-          <%= developer.name %>, <a href="/developers/<%= developer.id %>/games">Game List</a>
+          <%= developer.name %>, <a href="/developers/<%= developer.id %>">Game List</a>
         </li>
       <% }); %>
     <% } %>

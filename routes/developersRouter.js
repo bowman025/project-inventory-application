@@ -7,6 +7,6 @@ const {
 } = require('../controllers/developersController');
 
 router.get('/', developersGet);
-router.get('/:id/games', gamesByDevGet);
+router.get('/:id', gamesByDevGet);
 
 module.exports = router;

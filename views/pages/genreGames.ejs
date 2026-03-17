@@ -1,0 +1,19 @@
+<%- include('../partials/header') %>
+<main>
+  <h1>Games in "<%= genreName %>"</h1> 
+  <div class="game-grid">
+    <% if (games && games.length > 0) { %>
+      <% games.forEach(game => { %>
+        <div class="game-card">
+          <img src="<%= game.image %>" alt="<%= game.name %>">
+          <h3><a href="/games/<%= game.id %>"><%= game.name %></a></h3>
+          <p>Devs: <%= game.developer_names.join(', ') %></p>
+          <span class="score"><%= game.rating %></span>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p>No games found for this genre.</p>
+    <% } %>
+  </div>
+</main>
+<%- include('../partials/footer') %>
