@@ -53,3 +53,43 @@ p {
 }
 
 /* CSS RESET ENDS HERE */
+
+:root {
+  --prim-bgd: #171a21;
+  --sec-bgd: #232730;
+  --ter-bgd: #292e37;
+  --text: #adadad;
+  --accent: #66c0f4;
+}
+
+body {
+  height: 100dvh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: var(--text);
+}
+
+header, footer {
+  text-align: center;
+  padding: 10px;
+  color: var(--text);
+  background-color: var(--prim-bgd);
+}
+
+header a {
+  text-decoration: none;
+}
+
+main {
+  padding: 20px 10px;
+  color: var(--text);
+  background-color: var(--sec-bgd);
+}

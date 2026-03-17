@@ -3,7 +3,7 @@ const db = require('../db/queries');
 async function genresGet(req, res) {
   const genres = await db.getAllGenres();
   res.render('genres', {
-    title: 'Game Genres',
+    title: 'The Game Inventory: Genres',
     genres: genres,
   });
 }
@@ -13,7 +13,7 @@ async function gamesByGenreGet(req, res) {
   const games = await db.getAllGamesByGenre(genreId);
   const genreName = await db.getGenreName(genreId);
   res.render('genreGames', {
-    title: `Games in ${genreName}`,
+    title: `The Game Inventory: Games in ${genreName}`,
     games: games,
     genreName: genreName,
   });

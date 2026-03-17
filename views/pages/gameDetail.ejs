@@ -8,10 +8,24 @@
         <a href="/genres/<%= genre.id %>" class="genre-tag">
           <%= genre.name %>
         </a>
+      <% } else { %>
+        N/A
       <% } %>
     <% }); %>
   </div>
-  <p><strong>Developers:</strong> <%= game.developer_names.join(', ') %></p>
+  <div class="developers">
+    <strong>By:</strong> 
+    <% game.developer_list.forEach((dev, index) => { %>
+      <% if (dev.id) { %>
+        <a href="/developers/<%= dev.id %>">
+          <%= dev.name %>
+        </a>
+        <%= index < game.developer_list.length - 1 ? ', ' : '' %>
+      <% } else { %>
+        Unknown
+      <% } %>
+    <% }); %>
+  </div>
   <div class="description">
     <%= game.description %>
   </div>

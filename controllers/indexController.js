@@ -1,6 +1,6 @@
 const db = require('../db/queries');
 
-async function gamesGet(req, res) {
+async function gameGet(req, res) {
   const search = req.query.search?.trim();
   if (search) {
     const results = await db.searchGame(search);
@@ -10,13 +10,13 @@ async function gamesGet(req, res) {
       isSearch: true,
     });
   } else {
-    const games = await db.getAllGames();
+    const highlight = await db.getRandomHighlights();
     res.render('index', { 
-      title: 'Game Inventory', 
-      games: games,
+      title: 'The Game Inventory', 
+      highlight: highlight,
       isSearch: false, 
     });
   }
 }
 
-module.exports = { gamesGet, };
+module.exports = { gameGet, };

@@ -1,17 +1,53 @@
 <%- include('../partials/header') %>
 <main>
-  <h1><%= isSearch ? 'Search Results' : 'Games' %></h1>
-  <ul>
-    <% const items = isSearch ? results : games; %>
-    <% if (items && items.length > 0) { %>
-      <% items.forEach(items => { %>
-        <li style="background-image: url('<%= items.background %>');">
-          <img src="<%= items.image %>" alt="">
-          <p>Game: <%= items.name %></p> 
-          <p>Description: <%= items.description %></p>
-        </li>
-      <% }); %>
+  <% if (isSearch) { %>
+    <h1>Search Results</h1>
+    <% if (results.length === 0) { %>
+      <p>No games found.</p>
+      <a href="/">Back to home</a>
+    <% } else { %>
+      <ul>
+        <% results.forEach(result => { %>
+          <li style="background-image: url('<%= result.background %>');">
+            <img src="<%= result.image %>" alt="">
+            <p>Game: <%= result.name %></p> 
+            <p>Description: <%= result.description %></p>
+          </li>
+        <% }); %>
+      </ul>
     <% } %>
-  </ul>
+  <% } else { %>
+    <h1>Welcome to The Game Inventory</h1>
+    <section>
+      <h2>Game of the Moment</h2>
+      <div class="highlight-card">
+        <div class="highlight-image">
+          <img src="<%= highlight.g_img %>" alt="<%= highlight.g_name %>">
+        </div>
+        <div class="highlight-info">
+          <h3>
+            <a href="/games/<%= highlight.g_id %>"><%= highlight.g_name %></a>
+          </h3>
+          <p class="desc">
+            <%= highlight.g_desc.substring(0, 150) %>...
+          </p>
+        </div>
+      </div>
+    </section>
+    <section>
+      <h2>Try this Developer:</h2>
+      <a href="/developers/<%= highlight.d_id %>"><%= highlight.d_name %></a>
+    </section>
+    <section>
+      <h2>Explore Genre:</h2>
+       <a href="/genres/<%= highlight.gen_id %>"><%= highlight.gen_name %></a>
+    </section>
+    <section>
+      <h2>Add Data</h2>
+      <a href="/games/new">Add Game</a>
+      <a href="/developers/new">Add Developer</a>
+      <a href="/genres/new">Add Genre</a>
+    </section>
+  <% } %>
 </main>
 <%- include('../partials/footer') %>

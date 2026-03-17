@@ -3,7 +3,7 @@ const db = require('../db/queries');
 async function developersGet(req, res) {
   const developers = await db.getAllDevelopers();
   res.render('developers', {
-    title: 'Game Developers',
+    title: 'The Game Inventory: Developers',
     developers: developers,
   });
 }
@@ -11,9 +11,11 @@ async function developersGet(req, res) {
 async function gamesByDevGet(req, res) {
   const devId = req.params.id;
   const games = await db.getAllGamesByDev(devId);
+  const devName = await db.getDevName(devId);
   res.render('developerGames', {
-    title: 'Developer Games',
+    title: `The Game Inventory: Games by ${devName}`,
     games: games,
+    devName: devName,
   });
 }
 
