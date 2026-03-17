@@ -30,8 +30,17 @@ async function addGame(values) {
   );
 }
 
+async function searchGame(term) {
+  const { rows } = await pool.query(
+    'SELECT * FROM games WHERE name ILIKE $1',
+    [`%${term}%`]
+  );
+  return rows;
+}
+
 module.exports = {
   getAllGames,
   findGame,
   addGame,
+  searchGame,
 }

@@ -2,9 +2,9 @@ const { Router } = require('express');
 const router = Router();
 
 const {
-  listGames,
+  gamesGet,
 } = require('../controllers/indexController');
 
-router.get('/', listGames);
+router.get('/', gamesGet);
 
 module.exports = router;

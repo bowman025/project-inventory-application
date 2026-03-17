@@ -1,14 +1,17 @@
 <%- include('../partials/header') %>
 <main>
-  <h1>Games</h1>
+  <h1><%= isSearch ? 'Search Results' : 'Games' %></h1>
   <ul>
-    <% games.forEach(game => { %>
-      <li style="background-image: url('<%= game.background %>');">
-        <img src="<%= game.image %>" alt="">
-        <p>Game: <%= game.name %></p> 
-        <p>Description: <%= game.description %></p>
-      </li>
-    <% }); %>
+    <% const items = isSearch ? results : games; %>
+    <% if (items && items.length > 0) { %>
+      <% items.forEach(items => { %>
+        <li style="background-image: url('<%= items.background %>');">
+          <img src="<%= items.image %>" alt="">
+          <p>Game: <%= items.name %></p> 
+          <p>Description: <%= items.description %></p>
+        </li>
+      <% }); %>
+    <% } %>
   </ul>
 </main>
 <%- include('../partials/footer') %>
