@@ -1,0 +1,16 @@
+<%- include('../partials/header') %>
+<main>
+  <h1>Developer Games</h1>
+  <ul>
+    <% if (games && games.length > 0) { %>
+      <% games.forEach(game => { %>
+        <li>
+          <p><%= game.name %></p>
+          <p><%= game.release_date %></p>
+          <p><%= game.rating %></p>
+        </li>
+      <% }); %>
+    <% } %>
+  </ul>
+</main>
+<%- include('../partials/footer') %>

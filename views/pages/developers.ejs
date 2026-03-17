@@ -1,0 +1,14 @@
+<%- include('../partials/header') %>
+<main>
+  <h1>Developers</h1>
+  <ul>
+    <% if (developers && developers.length > 0) { %>
+      <% developers.forEach(developer => { %>
+        <li>
+          <%= developer.name %>, <a href="/developers/<%= developer.id %>/games">Game List</a>
+        </li>
+      <% }); %>
+    <% } %>
+  </ul>
+</main>
+<%- include('../partials/footer') %>

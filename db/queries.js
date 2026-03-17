@@ -5,12 +5,38 @@ async function getAllGames() {
   return rows;
 }
 
-async function findGame(id) {
+async function getAllDevelopers() {
+  const { rows } = await pool.query('SELECT * FROM developers');
+  return rows;
+}
+
+async function getAllGenres() {
+  const { rows } = await pool.query('SELECT * FROM genres');
+  return rows;
+}
+
+async function getGame(id) {
   const { rows } = await pool.query(
     'SELECT * FROM games WHERE id = $1',
     [id]
   );
   return rows[0];
+}
+
+async function getAllGamesByDev(id) {
+  const query = `
+    SELECT g.name, g.release_date, g.rating
+    FROM games g
+    JOIN game_developers gd ON g.id = gd.game_id
+    WHERE gd.developer_id = $1
+    ORDER BY g.release_date DESC;
+  `;
+  try {
+    const { rows } = await pool.query(query, [id]);
+    return rows;
+  } catch (error) {
+    console.error('Query failed', error);
+  }
 }
 
 async function addGame(values) {
@@ -40,7 +66,10 @@ async function searchGame(term) {
 
 module.exports = {
   getAllGames,
-  findGame,
+  getAllDevelopers,
+  getAllGenres,
+  getGame,
+  getAllGamesByDev,
   addGame,
   searchGame,
 }

@@ -4,6 +4,9 @@ const express = require('express');
 const app = express();
 
 const indexRouter = require('./routes/indexRouter');
+const gamesRouter = require('./routes/gamesRouter');
+const developersRouter = require('./routes/developersRouter');
+const genresRouter = require('./routes/genresRouter');
 const CustomNotFoundError = require('./errors/CustomNotFoundError');
 
 const path = require('node:path');
@@ -16,6 +19,9 @@ app.use(express.static(assetsPath));
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/', indexRouter);
+app.use('/games', gamesRouter);
+app.use('/developers', developersRouter);
+app.use('/genres', genresRouter);
 
 app.use((req, res, next) => {
   next(new CustomNotFoundError('Page Not Found.'));
