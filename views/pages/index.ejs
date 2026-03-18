@@ -1,53 +1,62 @@
 <%- include('../partials/header') %>
 <main>
   <% if (isSearch) { %>
-    <h1>Search Results</h1>
-    <% if (results.length === 0) { %>
-      <p>No games found.</p>
-      <a href="/">Back to home</a>
-    <% } else { %>
-      <ul>
-        <% results.forEach(result => { %>
-          <li style="background-image: url('<%= result.background %>');">
-            <img src="<%= result.image %>" alt="">
-            <p>Game: <%= result.name %></p> 
-            <p>Description: <%= result.description %></p>
-          </li>
-        <% }); %>
-      </ul>
-    <% } %>
+    <div class="search-results">
+      <h1>Search Results</h1>
+      <% if (results.length === 0) { %>
+        <p>No games found.</p>
+        <a href="/">Back to home</a>
+      <% } else { %>
+        <ul>
+          <% results.forEach(result => { %>
+            <li style="background-image: url('<%= result.background %>');">
+              <img src="<%= result.image %>" alt="">
+              <p>Game: <%= result.name %></p>
+              <p>Description: <%= result.description %></p>
+            </li>
+          <% }); %>
+        </ul>
+      <% } %>
+    </div>
   <% } else { %>
-    <h1>Welcome to The Game Inventory</h1>
-    <section>
-      <h2>Game of the Moment</h2>
-      <div class="highlight-card">
-        <div class="highlight-image">
-          <img src="<%= highlight.g_img %>" alt="<%= highlight.g_name %>">
+    <div class="highlight">
+      <section class="highlight-game">
+        <h1>Game of the Moment</h1>
+        <div class="highlight-card" style="background-image: url('<%= highlight.g_bgd %>');">
+          <div class="highlight-image">
+            <a href="/games/<%= highlight.g_id %>">
+              <img src="<%= highlight.g_img %>" alt="<%= highlight.g_name %>">
+            </a>
+          </div>
+          <div class="highlight-info">
+            <h2>
+              <a href="/games/<%= highlight.g_id %>"><%= highlight.g_name %></a>
+            </h2>
+            <p class="desc">
+              <%= highlight.g_desc.substring(0, 150) %>... <a href="/games/<%= highlight.g_id %>">Details</a>
+            </p>
+          </div>
         </div>
-        <div class="highlight-info">
-          <h3>
-            <a href="/games/<%= highlight.g_id %>"><%= highlight.g_name %></a>
-          </h3>
-          <p class="desc">
-            <%= highlight.g_desc.substring(0, 150) %>...
-          </p>
+      </section>
+      <section class="highlight-dev-genre">
+        <div class="try-dev">
+          <h2>Try this Developer:</h2>
+          <a href="/developers/<%= highlight.d_id %>"><%= highlight.d_name %></a>
         </div>
-      </div>
-    </section>
-    <section>
-      <h2>Try this Developer:</h2>
-      <a href="/developers/<%= highlight.d_id %>"><%= highlight.d_name %></a>
-    </section>
-    <section>
-      <h2>Explore Genre:</h2>
-       <a href="/genres/<%= highlight.gen_id %>"><%= highlight.gen_name %></a>
-    </section>
-    <section>
-      <h2>Add Data</h2>
-      <a href="/games/new">Add Game</a>
-      <a href="/developers/new">Add Developer</a>
-      <a href="/genres/new">Add Genre</a>
-    </section>
+        <div class="explore-genre">
+          <h2>Explore Genre:</h2>
+          <a href="/genres/<%= highlight.gen_id %>"><%= highlight.gen_name %></a>
+        </div>
+      </section>
+      <section class="highlight-add-data">
+        <h2>Add Data:</h2>
+        <div class="add-links">
+          <a href="/games/new">GAME</a>
+          <a href="/developers/new">DEVELOPER</a>
+          <a href="/genres/new">GENRE</a>
+        </div>
+      </section>
+    </div>
   <% } %>
 </main>
 <%- include('../partials/footer') %>

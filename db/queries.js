@@ -52,6 +52,7 @@ async function getRandomHighlights(req, res) {
       rg.id AS g_id,
       rg.name AS g_name,
       rg.image AS g_img,
+      rg.background AS g_bgd,
       rg.description AS g_desc,
       rd.id AS d_id,
       rd.name AS d_name,
