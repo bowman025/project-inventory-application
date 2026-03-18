@@ -1,29 +1,21 @@
 <%- include('../partials/header') %>
 <main>
-  <h1>Games in "<%= genreName %>"</h1> 
-  <div class="game-grid">
-    <% if (games && games.length > 0) { %>
-      <% games.forEach(game => { %>
-        <div class="game-card">
-          <img src="<%= game.image %>" alt="<%= game.name %>">
-          <h3><a href="/games/<%= game.id %>"><%= game.name %></a></h3>
-          <p class="developers">
-            By: 
-            <% game.developer_list.forEach((dev, index) => { %>
-              <% if (dev.id) { %>
-                <a href="/developers/<%= dev.id %>"><%= dev.name %></a>
-                <%= index < game.developer_list.length - 1 ? ', ' : '' %>
-              <% } else { %>
-                Unknown
-              <% } %>
-            <% }); %>
-          </p>
-          <p class="score">Rating: <%= game.rating || 'N/A' %></p>
-        </div>
-      <% }); %>
-    <% } else { %>
-      <p>No games found for this genre.</p>
-    <% } %>
+  <div class="genre-games">
+    <h1>Games in "<%= genreName %>"</h1>
+    <div class="game-grid">
+      <% if (games && games.length > 0) { %>
+        <% games.forEach(game => { %>
+          <div class="game-card" style="background-image: url('<%= game.background %>');">
+            <a href="/games/<%= game.id %>">
+              <img src="<%= game.image %>" alt="<%= game.name %>">
+            </a>
+            <h2><a href="/games/<%= game.id %>"><%= game.name %></a></h2>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p>No games found for this genre.</p>
+      <% } %>
+    </div>
   </div>
 </main>
 <%- include('../partials/footer') %>

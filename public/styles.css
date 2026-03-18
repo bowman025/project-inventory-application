@@ -156,7 +156,7 @@ main {
 }
 
 .highlight {
-  width: clamp(300px, 80vw, 1000px);
+  width: clamp(300px, 90vw, 1000px);
 }
 
 .highlight-image {
@@ -176,9 +176,9 @@ main {
 .highlight-dev-genre {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  margin-top: 10px;
+  align-items: stretch;
+  gap: 20px;
+  margin-top: 20px;
   div {
     flex-basis: 50%;
     flex-grow: 1;
@@ -196,7 +196,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 20px;
   padding: 20px;
   background-color: var(--prim-bgd);
   .add-links {
@@ -211,6 +211,45 @@ main {
     }
     a:not(:last-child) {
       margin-right: 8px;
+    }
+  }
+}
+
+.genre-games {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  .game-grid {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    .game-card {
+      border: 1px solid var(--prim-bgd);
+      border-radius: 0 0 10px 10px;
+      box-shadow: 2px 2px 4px var(--prim-bgd);
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+      h2 {
+        text-align: center;
+        padding: 10px;
+        a {
+          text-decoration: none;
+          color: var(--text);
+        }
+        a:hover {
+          color: var(--accent);
+        }
+      }
+    }
+    .game-card:hover {
+      outline: 2px solid var(--accent);
     }
   }
 }
