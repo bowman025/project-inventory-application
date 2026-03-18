@@ -1,14 +1,18 @@
 <%- include('../partials/header') %>
 <main>
-  <h1>Developers</h1>
-  <ul>
-    <% if (developers && developers.length > 0) { %>
-      <% developers.forEach(developer => { %>
-        <li>
-          <%= developer.name %>, <a href="/developers/<%= developer.id %>">Game List</a>
-        </li>
-      <% }); %>
-    <% } %>
-  </ul>
+  <div class="developers-page">
+    <h1>Developers</h1>
+    <ul class="developers-list">
+      <% if (developers && developers.length > 0) { %>
+        <% developers.forEach(developer => { %>
+          <li>
+            <a href="/developers/<%= developer.id %>">
+              <%= developer.name %>
+            </a>
+          </li>
+        <% }); %>
+      <% } %>
+    </ul>
+  </div>
 </main>
 <%- include('../partials/footer') %>

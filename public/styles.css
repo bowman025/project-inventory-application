@@ -55,7 +55,8 @@ p {
 /* CSS RESET ENDS HERE */
 
 :root {
-  --prim-bgd: #171a21;
+  --prim-bgd-values:23, 26, 33;
+  --prim-bgd: rgb(var(--prim-bgd-values));
   --sec-bgd: #232730;
   --ter-bgd: #292e37;
   --text: #adadad;
@@ -63,10 +64,11 @@ p {
 }
 
 body {
-  height: 100dvh;
+  min-height: 100dvh;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
+  background-color: var(--prim-bgd);
 }
 
 ul {
@@ -83,13 +85,18 @@ header, footer {
   text-align: center;
   padding: 10px;
   color: var(--text);
-  background-color: var(--prim-bgd);
+  background-color: rgb(var(--prim-bgd-values));
 }
 
 header {
+  z-index: 999;
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0px 3px 4px black;
+  transition: opacity 0.3s ease;
   nav ul {
     display: flex;
     align-items: center;
@@ -145,6 +152,11 @@ header {
   }
 }
 
+header.scrolled {
+  background-color: rgba(var(--prim-bgd-values), 0.8);
+  backdrop-filter: blur(8px);
+}
+
 main {
   display: flex;
   flex-direction: column;
@@ -157,6 +169,11 @@ main {
 
 .highlight {
   width: clamp(300px, 90vw, 1000px);
+}
+
+.highlight-card {
+  box-shadow: 3px 3px 4px var(--prim-bgd);
+  border-radius: 0 0 10px 10px;
 }
 
 .highlight-image {
@@ -182,9 +199,11 @@ main {
   div {
     flex-basis: 50%;
     flex-grow: 1;
-    background-color: var(--prim-bgd);
+    background-color: var(--ter-bgd);
     padding: 10px;
     text-align: center;
+    border-radius: 10px;
+    box-shadow: 3px 3px 4px var(--prim-bgd);
     a {
       font-size: 1.8rem;
       text-decoration: none;
@@ -198,7 +217,9 @@ main {
   align-items: center;
   margin-top: 20px;
   padding: 20px;
-  background-color: var(--prim-bgd);
+  background-color: var(--ter-bgd);
+  border-radius: 10px;
+  box-shadow: 3px 3px 4px var(--prim-bgd);
   .add-links {
     margin-top: 8px;
     a {
@@ -215,12 +236,74 @@ main {
   }
 }
 
-.genre-games {
+.genres-page {
+  width: clamp(300px, 90vw, 1000px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h1 {
+    font-size: 3rem;
+  }
+  .genres-list {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    li {
+      flex-grow: 1;
+      background-color: var(--prim-bgd);
+      border-radius: 10px;
+      text-align: center;
+      a {
+        display: block;
+        padding: 20px;
+        text-decoration: none;
+        font-size: 1.8rem;
+      }
+    }
+  }
+}
+
+.developers-page {
+  width: clamp(300px, 90vw, 1000px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h1 {
+    font-size: 3rem;
+  }
+  .developers-list {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    li {
+      flex-grow: 1;
+      background-color: var(--prim-bgd);
+      border-radius: 10px;
+      text-align: center;
+      a {
+        display: block;
+        padding: 20px;
+        text-decoration: none;
+        font-size: 1.8rem;
+      }
+    }
+  }
+}
+
+.all-games,
+.genre-games,
+.developer-games,
+.search-results {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  h1 {
+    font-size: 3rem;
+  }
   .game-grid {
     margin-top: 15px;
     display: flex;
@@ -251,5 +334,13 @@ main {
     .game-card:hover {
       outline: 2px solid var(--accent);
     }
+  }
+}
+
+.game-detail {
+  margin: 30px 0;
+  img {
+    width: 100%;
+    object-fit: cover;
   }
 }

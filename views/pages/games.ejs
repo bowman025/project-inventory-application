@@ -1,15 +1,21 @@
 <%- include('../partials/header') %>
 <main>
-  <h1>Games</h1>
-  <ul>
-    <% if (games && games.length > 0) { %>
-      <% games.forEach(game => { %>
-        <li>
-          <p><%= game.name %></p>
-          <p><a href="/games/<%= game.id %>">Details</a></p>
-        </li>
-      <% }); %>
-    <% } %>
-  </ul>
+  <div class="all-games">
+    <h1>All Games</h1>
+    <div class="game-grid">
+      <% if (games && games.length > 0) { %>
+        <% games.forEach(game => { %>
+          <div class="game-card" style="background-image: url('<%= game.background %>');">
+            <a href="/games/<%= game.id %>">
+              <img src="<%= game.image %>" alt="<%= game.name %>">
+            </a>
+            <h2><a href="/games/<%= game.id %>"><%= game.name %></a></h2>
+          </div>
+        <% }); %>
+      <% } else { %>
+        <p>No games found.</p>
+      <% } %>
+    </div>
+  </div>
 </main>
 <%- include('../partials/footer') %>

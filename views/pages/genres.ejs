@@ -1,16 +1,18 @@
 <%- include('../partials/header') %>
 <main>
-  <h1>Genres</h1>
-  <ul>
-    <% if (genres && genres.length > 0) { %>
-      <% genres.forEach(genre => { %>
-        <li>
-          <a href="/genres/<%= genre.id %>">
-            <%= genre.name %>
-          </a>
-        </li>
-      <% }); %>
-    <% } %>
-  </ul>
+  <div class="genres-page">
+    <h1>Genres</h1>
+    <ul class="genres-list">
+      <% if (genres && genres.length > 0) { %>
+        <% genres.forEach(genre => { %>
+          <li>
+            <a href="/genres/<%= genre.id %>">
+              <%= genre.name %>
+            </a>
+          </li>
+        <% }); %>
+      <% } %>
+    </ul>
+  </div>
 </main>
 <%- include('../partials/footer') %>

@@ -1,33 +1,51 @@
 <%- include('../partials/header') %>
 <main>
-  <h1><%= game.name %></h1>
-  <div class="genres">
-    <strong>Genres:</strong>
-    <% game.genre_list.forEach(genre => { %>
-      <% if (genre.id) { %>
-        <a href="/genres/<%= genre.id %>" class="genre-tag">
-          <%= genre.name %>
-        </a>
-      <% } else { %>
-        N/A
-      <% } %>
-    <% }); %>
-  </div>
-  <div class="developers">
-    <strong>By:</strong> 
-    <% game.developer_list.forEach((dev, index) => { %>
-      <% if (dev.id) { %>
-        <a href="/developers/<%= dev.id %>">
-          <%= dev.name %>
-        </a>
-        <%= index < game.developer_list.length - 1 ? ', ' : '' %>
-      <% } else { %>
-        Unknown
-      <% } %>
-    <% }); %>
-  </div>
-  <div class="description">
-    <%= game.description %>
+  <div class="game-detail">
+    <img src="<%= game.image %>" alt="">
+    <div class="game-detail-text" style="background-image: url('<%= game.background %>');">
+      <h1><%= game.name %></h1>
+      <p class="developers">
+        <span class="emphasize">By:</span>
+        <% game.developer_list.forEach((dev, index) => { %>
+          <% if (dev.id) { %>
+            <a href="/developers/<%= dev.id %>">
+              <%= dev.name %>
+            </a>
+            <%= index < game.developer_list.length - 1 ? ', ' : '' %>
+          <% } else { %>
+            Unknown
+          <% } %>
+        <% }); %>
+      </p>
+      <p class="genres">
+        <span class="emphasize">Genres:</span>
+        <% game.genre_list.forEach(genre => { %>
+          <% if (genre.id) { %>
+            <a href="/genres/<%= genre.id %>" class="genre-tag">
+              <%= genre.name %>
+            </a>
+          <% } else { %>
+            N/A
+          <% } %>
+        <% }); %>
+      </p>
+      <p class="description">
+        <span class="emphasize">Description:</span> <%= game.description %>
+      </p>
+      <p class="release-date">
+        <span class="emphasize">Released:</span> <%= game.release_date || "Unknown" %>
+      </p>
+      <p class="rating">
+        <span class="emphasize">MetaCritic Rating:</span> <%= game.rating || "N/A" %>
+      </p>
+      <p class="steam-id">
+        <span class="emphasize">Steam ID:</span> <%= game.steam_id || "N/A" %>
+      </p>
+    </div>
+    <div class="game-detail-buttons">
+      <a href="/games/<%= game.id %>/edit">Edit</a>
+      <button type="submit">Delete</button>
+    </div>
   </div>
 </main>
 <%- include('../partials/footer') %>

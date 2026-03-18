@@ -70,7 +70,7 @@ async function getRandomHighlights(req, res) {
 
 async function getAllGamesByDev(id) {
   const query = `
-    SELECT g.name, g.release_date, g.rating
+    SELECT g.*
     FROM games g
     JOIN game_developers gd ON g.id = gd.game_id
     WHERE gd.developer_id = $1
