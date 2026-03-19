@@ -8,10 +8,12 @@
         <span class="emphasize">By:</span>
         <% game.developer_list.forEach((dev, index) => { %>
           <% if (dev.id) { %>
-            <a href="/developers/<%= dev.id %>">
-              <%= dev.name %>
-            </a>
-            <%= index < game.developer_list.length - 1 ? ', ' : '' %>
+            <span>
+              <a href="/developers/<%= dev.id %>">
+                <%= dev.name %>
+              </a>
+              <%= index < game.developer_list.length - 1 ? ', ' : '' %>
+            </span>
           <% } else { %>
             Unknown
           <% } %>
@@ -19,11 +21,11 @@
       </p>
       <p class="genres">
         <span class="emphasize">Genres:</span>
-        <% game.genre_list.forEach(genre => { %>
+        <% game.genre_list.forEach((genre, index) => { %>
           <% if (genre.id) { %>
-            <a href="/genres/<%= genre.id %>" class="genre-tag">
-              <%= genre.name %>
-            </a>
+            <span><a href="/genres/<%= genre.id %>" class="genre-tag">
+              <%= genre.name %></a><%= index < game.genre_list.length - 1 ? ', ' : '' %>
+            </span>
           <% } else { %>
             N/A
           <% } %>
@@ -41,10 +43,10 @@
       <p class="steam-id">
         <span class="emphasize">Steam ID:</span> <%= game.steam_id || "N/A" %>
       </p>
-    </div>
-    <div class="game-detail-buttons">
-      <a href="/games/<%= game.id %>/edit">Edit</a>
-      <button type="submit">Delete</button>
+      <div class="game-detail-buttons">
+        <a href="/games/<%= game.id %>/edit">EDIT</a>
+        <button type="submit">DELETE</button>
+      </div>
     </div>
   </div>
 </main>

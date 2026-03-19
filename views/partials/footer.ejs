@@ -1,5 +1,15 @@
 	<footer>
 		<p>Made by <a href="https://github.com/bowman025">bowman025</a>.</p>
 	</footer>
+  <script>
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 10) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+  </script>
 </body>
 </html>

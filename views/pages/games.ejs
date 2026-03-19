@@ -1,7 +1,10 @@
 <%- include('../partials/header') %>
 <main>
   <div class="all-games">
-    <h1>All Games</h1>
+    <div class="games-top">
+      <h1>All Games</h1>
+      <a href="/games/new">ADD A GAME</a>
+    </div>
     <div class="game-grid">
       <% if (games && games.length > 0) { %>
         <% games.forEach(game => { %>

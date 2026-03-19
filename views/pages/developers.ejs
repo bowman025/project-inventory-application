@@ -1,7 +1,10 @@
 <%- include('../partials/header') %>
 <main>
   <div class="developers-page">
-    <h1>Developers</h1>
+    <div class="developers-top">
+      <h1>Developers</h1>
+      <a href="/developers/new">ADD A DEVELOPER</a>
+    </div>
     <ul class="developers-list">
       <% if (developers && developers.length > 0) { %>
         <% developers.forEach(developer => { %>

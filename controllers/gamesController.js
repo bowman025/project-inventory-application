@@ -1,4 +1,5 @@
 const db = require('../db/queries');
+const formatDateTime = require('../utils/formatDateTime');
 
 async function gamesGet(req, res) {
   const games = await db.getAllGames();
@@ -11,9 +12,13 @@ async function gamesGet(req, res) {
 async function gameGet(req, res) {
   const gameId = req.params.id;
   const game = await db.getGame(gameId);
+  const formatted = {
+    ...game, 
+    release_date: formatDateTime(game.release_date) 
+  };
   res.render('gameDetail', {
-    title: `The Game Inventory: ${game.name}`,
-    game: game,
+    title: `The Game Inventory: ${formatted.name}`,
+    game: formatted,
   });
 }
 
