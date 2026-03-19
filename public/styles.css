@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&family=Silkscreen:wght@400;700&display=swap');
+
 /* CSS RESET STARTs HERE */
 
 /* 1. Use a more-intuitive box-sizing model */
@@ -69,6 +71,12 @@ body {
   grid-template-columns: 1fr;
   grid-template-rows: auto 1fr auto;
   background-color: var(--prim-bgd);
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
 }
 
 ul {
@@ -89,7 +97,7 @@ header, footer {
 }
 
 header {
-  z-index: 999;
+  z-index: 1;
   position: sticky;
   top: 0;
   display: flex;
@@ -120,6 +128,9 @@ header {
   h1 {
     a {
       color: var(--accent);
+      font-family: "Silkscreen", sans-serif;
+      font-weight: 400;
+      font-style: normal;
     }
   }
   a {
@@ -141,7 +152,8 @@ header {
     border: none;
     border-radius: 8px 0 0 8px;
     outline: 1px solid var(--ter-bgd);
-    padding: 2px 8px;
+    padding: 1px 8px 3px;
+    margin-top: 1px;
     transition: width 0.4s ease-in-out;
   }
   #search:focus {
@@ -224,7 +236,7 @@ main {
   }
 }
 
-.highlight-add-data {
+.highlight-explore-all {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -233,7 +245,7 @@ main {
   background-color: var(--ter-bgd);
   border-radius: 10px;
   box-shadow: 3px 3px 4px var(--prim-bgd);
-  .add-links {
+  .explore-links {
     margin-top: 8px;
     display: flex;
     flex-wrap: wrap;
@@ -359,12 +371,14 @@ main {
   h1 {
     font-size: 3rem;
   }
-  a {
+  button {
+    cursor: pointer;
     font-size: 1.4rem;
     text-decoration: none;
     color: var(--prim-bgd);
     background-color: var(--accent);
     padding: 6px 10px;
+    border: none;
     border-radius: 6px;
   }
 }
@@ -403,18 +417,12 @@ main {
       background-color: rgba(0, 0, 0, 0.3);
       margin: -20px;
       padding: 15px;
-      a, button {
+      button {
         font-size: 1.4rem;
         text-decoration: none;
         color: var(--prim-bgd);
         background-color: var(--accent);
         border-radius: 6px;
-      }
-      a {
-        padding: 10px 20px;
-        margin-right: 15px;
-      }
-      button {
         cursor: pointer;
         margin: 0;
         padding: 6px 10px;
