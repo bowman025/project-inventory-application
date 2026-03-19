@@ -12,7 +12,7 @@ async function gamesByGenreGet(req, res) {
   const genreId = req.params.id;
   const games = await db.getAllGamesByGenre(genreId);
   const genreName = await db.getGenreName(genreId);
-  res.render('genreGames', {
+  res.render('genreDetail', {
     title: `The Game Inventory: Games in ${genreName}`,
     games: games,
     genreName: genreName,

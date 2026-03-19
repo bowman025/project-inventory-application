@@ -12,8 +12,8 @@ async function gamesByDevGet(req, res) {
   const devId = req.params.id;
   const games = await db.getAllGamesByDev(devId);
   const devName = await db.getDevName(devId);
-  res.render('developerGames', {
-    title: `The Game Inventory: Games by ${devName}`,
+  res.render('developerDetail', {
+    title: `The Game Inventory: ${devName}`,
     games: games,
     devName: devName,
   });

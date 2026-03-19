@@ -1,7 +1,12 @@
 <%- include('../partials/header') %>
 <main>
-  <div class="developer-games">
-    <h1>Games by <%= devName %></h1>
+  <div class="developer-detail">
+    <h1><%= devName %></h1>
+    <div class="developer-buttons">
+      <button onclick="">EDIT</button>
+      <button onclick="">DELETE</button>
+    </div>
+    <h2>Games by this developer:</h2>
     <div class="game-grid">
       <% if (games && games.length > 0) { %>
         <% games.forEach(game => { %>

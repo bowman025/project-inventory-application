@@ -1,7 +1,12 @@
 <%- include('../partials/header') %>
 <main>
-  <div class="genre-games">
-    <h1>Games in "<%= genreName %>"</h1>
+  <div class="genre-detail">
+    <h1><%= genreName %></h1>
+    <div class="genre-buttons">
+      <button onclick="">EDIT</button>
+      <button onclick="">DELETE</button>
+    </div>
+    <h2>Games in this genre:</h2>
     <div class="game-grid">
       <% if (games && games.length > 0) { %>
         <% games.forEach(game => { %>
