@@ -19,4 +19,21 @@ async function gamesByDevGet(req, res) {
   });
 }
 
-module.exports = { developersGet, gamesByDevGet };
+async function developerDeletePost(req, res) {
+  const { id } = req.params;
+  const { password } = req.body;
+  const isValid = password === process.env.ADMIN_PASS;
+
+  if (!isValid) {
+    return res.status(401).send('Invalid password. Deletion aborted.');
+  }
+
+  await db.deleteDeveloper(id);
+  res.redirect('/developers');
+}
+
+module.exports = { 
+  developersGet, 
+  gamesByDevGet,
+  developerDeletePost, 
+};

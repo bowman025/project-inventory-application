@@ -1,0 +1,15 @@
+<dialog id="delete">
+  <form action="/delete" method="dialog">
+    <label for="password">Admin Password:</label>
+    <input 
+      type="password" 
+      id="password" 
+      name="password" 
+      maxlength="50" 
+      minlength="1" 
+      required
+    >
+    <button type="submit">Delete</button>
+  </form>
+  <button commandfor="delete" command="close">Close</button>
+</dialog>

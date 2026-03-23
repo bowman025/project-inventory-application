@@ -22,4 +22,21 @@ async function gameGet(req, res) {
   });
 }
 
-module.exports = { gamesGet, gameGet };
+async function gameDeletePost(req, res) {
+  const { id } = req.params;
+  const { password } = req.body;
+  const isValid = password === process.env.ADMIN_PASS;
+
+  if (!isValid) {
+    return res.status(401).send('Invalid password. Deletion aborted.');
+  }
+
+  await db.deleteGame(id);
+  res.redirect('/games');
+}
+
+module.exports = { 
+  gamesGet, 
+  gameGet,
+  gameDeletePost, 
+};

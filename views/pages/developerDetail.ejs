@@ -4,7 +4,9 @@
     <h1><%= devName %></h1>
     <div class="developer-buttons">
       <button onclick="">EDIT</button>
-      <button onclick="">DELETE</button>
+      <button command="show-modal" commandfor="delete">
+        DELETE
+      </button>
     </div>
     <h2>Games by this developer:</h2>
     <div class="game-grid">
@@ -22,5 +24,6 @@
       <% } %>
     </div>
   </div>
+  <%- include('../partials/deleteItem') %>
 </main>
 <%- include('../partials/footer') %>

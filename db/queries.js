@@ -140,6 +140,45 @@ async function addGenre(name) {
   
 }
 
+async function deleteGame(id) {
+  try {
+    const { rows } = await pool.query(`
+      DELETE FROM games
+      WHERE id = $1
+      RETURNING id, name;  
+    `, [id]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error during deletion:', error);
+  }
+}
+
+async function deleteDeveloper(id) {
+  try {
+    const { rows } = await pool.query(`
+      DELETE FROM developers
+      WHERE id = $1
+      RETURNING id, name;  
+    `, [id]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error during deletion:', error);
+  }
+}
+
+async function deleteGenre(id) {
+  try {
+    const { rows } = await pool.query(`
+      DELETE FROM genres
+      WHERE id = $1
+      RETURNING id, name;  
+    `, [id]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error during deletion:', error);
+  }
+}
+
 async function searchGame(term) {
   const { rows } = await pool.query(
     'SELECT * FROM games WHERE name ILIKE $1',
@@ -161,5 +200,8 @@ module.exports = {
   addGame,
   addDeveloper,
   addGenre,
+  deleteGame,
+  deleteDeveloper,
+  deleteGenre,
   searchGame,
 }

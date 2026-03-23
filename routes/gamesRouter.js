@@ -4,6 +4,7 @@ const router = Router();
 const {
   gamesGet,
   gameGet,
+  gameDeletePost,
 } = require('../controllers/gamesController');
 
 router.get('/', gamesGet);
@@ -13,5 +14,6 @@ router.get('/new', (req, res) => {
   });
 });
 router.get('/:id', gameGet);
+router.post('/:id/delete', gameDeletePost);
 
 module.exports = router;

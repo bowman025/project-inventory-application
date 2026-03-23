@@ -19,4 +19,21 @@ async function gamesByGenreGet(req, res) {
   });
 }
 
-module.exports = { genresGet, gamesByGenreGet };
+async function genreDeletePost(req, res) {
+  const { id } = req.params;
+  const { password } = req.body;
+  const isValid = password === process.env.ADMIN_PASS;
+
+  if (!isValid) {
+    return res.status(401).send('Invalid password. Deletion aborted.');
+  }
+
+  await db.deleteGenre(id);
+  res.redirect('/genres');
+}
+
+module.exports = { 
+  genresGet, 
+  gamesByGenreGet, 
+  genreDeletePost,
+};

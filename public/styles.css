@@ -388,6 +388,7 @@ main {
 .genres-top  {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   gap: 20px;
   h1 {
@@ -450,4 +451,53 @@ main {
       }
     }
   }
+}
+
+dialog {
+  text-align: end;
+  width: clamp(250px, 60vw, 800px);
+  color: var(--text);
+  background-color: var(--prim-bgd);
+  border: 2px solid var(--accent);
+  border-radius: 10px;
+  form {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    input {
+      font-size: 1.2rem;
+      color: var(--accent);
+      background-color: var(--ter-bgd);
+      border: none;
+      border-radius: 8px;
+      outline: 1px solid var(--ter-bgd);
+      padding: 1px 8px 3px;
+    }
+    input:focus-visible {
+      outline: 1px solid var(--accent);
+    }
+    button {
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+      padding: 4px 8px;
+      background-color: var(--accent);
+    }
+  }
+  button {
+    align-self: e;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 4px 8px;
+  background-color: var(--accent);
+  }
+}
+
+dialog::backdrop {
+  background-color: rgba(var(--prim-bgd-values), 0.5);
+  backdrop-filter: blur(8px);
 }
