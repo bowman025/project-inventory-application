@@ -1,4 +1,5 @@
 const db = require('../db/queries');
+const CustomValidationError = require('../errors/CustomValidationError');
 
 async function developersGet(req, res) {
   const developers = await db.getAllDevelopers();
@@ -16,24 +17,54 @@ async function gamesByDevGet(req, res) {
     title: `The Game Inventory: ${devName}`,
     games: games,
     devName: devName,
+    devId: devId,
   });
 }
 
-async function developerDeletePost(req, res) {
-  const { id } = req.params;
-  const { password } = req.body;
-  const isValid = password === process.env.ADMIN_PASS;
-
-  if (!isValid) {
-    return res.status(401).send('Invalid password. Deletion aborted.');
+async function developerAddPost(req, res) {
+  try {
+    const { developer } = req.body;
+    await db.addDeveloper(developer);
+    res.redirect('/developers');
+  } catch (error) {
+    console.error(error);
   }
+}
 
-  await db.deleteDeveloper(id);
-  res.redirect('/developers');
+async function developerEditPost(req, res, next) {
+  try {
+    const { id } = req.params;
+    const { name, password } = req.body;
+    const isValid = password === process.env.ADMIN_PASS;
+    if (!isValid) {
+      return next(new CustomValidationError('Invalid password. Edit aborted.'));
+    }
+    await db.updateDeveloper(id, name);
+    res.redirect(`/developers/${id}`);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+async function developerDeletePost(req, res) {
+  try {
+    const { id } = req.params;
+    const { password } = req.body;
+    const isValid = password === process.env.ADMIN_PASS;
+    if (!isValid) {
+      return res.status(401).send('Invalid password. Deletion aborted.');
+    }
+    await db.deleteDeveloper(id);
+    res.redirect('/developers');
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 module.exports = { 
   developersGet, 
   gamesByDevGet,
+  developerAddPost,
+  developerEditPost,
   developerDeletePost, 
 };

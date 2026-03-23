@@ -133,11 +133,59 @@ async function addGame(values) {
 }
 
 async function addDeveloper(name) {
-
+  try {
+    const { rows } = await pool.query(`
+      INSERT INTO developers (name)
+      VALUES ($1)
+      RETURNING id, name;
+    `, [name]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error adding developer:', error);
+  }
 }
 
 async function addGenre(name) {
-  
+  try {
+    const { rows } = await pool.query(`
+      INSERT INTO genres (name)
+      VALUES ($1)
+      RETURNING id, name;
+    `, [name]);
+    return rows[0];
+  } catch (error) {
+    console.error('Error adding genre:', error);
+  }
+}
+
+async function updateGame(values) {
+  try {
+    
+  } catch (error) {
+    console.error('Error editing game:', error);
+  }
+}
+
+async function updateDeveloper(id, name) {
+  try {
+  await pool.query(
+    'UPDATE developers SET name = $1 WHERE id = $2',
+    [name, id]
+  );
+  } catch (error) {
+  console.error('Error editing developer:', error);
+  }
+}
+
+async function updateGenre(id, name) {
+  try {
+  await pool.query(
+    'UPDATE genres SET name = $1 WHERE id = $2',
+    [name, id]
+  );
+  } catch (error) {
+  console.error('Error editing genre:', error);
+  }
 }
 
 async function deleteGame(id) {
@@ -200,6 +248,9 @@ module.exports = {
   addGame,
   addDeveloper,
   addGenre,
+  updateGame,
+  updateDeveloper,
+  updateGenre,
   deleteGame,
   deleteDeveloper,
   deleteGenre,

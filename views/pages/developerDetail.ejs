@@ -3,7 +3,9 @@
   <div class="developer-detail">
     <h1><%= devName %></h1>
     <div class="developer-buttons">
-      <button onclick="">EDIT</button>
+      <button command="show-modal" commandfor="edit-dev">
+        EDIT
+      </button>
       <button command="show-modal" commandfor="delete">
         DELETE
       </button>
@@ -25,5 +27,6 @@
     </div>
   </div>
   <%- include('../partials/deleteItem') %>
+  <%- include('../partials/editDeveloper') %>
 </main>
 <%- include('../partials/footer') %>

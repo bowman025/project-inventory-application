@@ -3,7 +3,9 @@
   <div class="developers-page">
     <div class="developers-top">
       <h1>Developers</h1>
-      <button onclick="">ADD A DEVELOPER</button>
+      <button command="show-modal" commandfor="add-dev">
+        ADD A DEVELOPER
+      </button>
     </div>
     <ul class="developers-list">
       <% if (developers && developers.length > 0) { %>
@@ -17,5 +19,6 @@
       <% } %>
     </ul>
   </div>
+  <%- include('../partials/addDeveloper') %>
 </main>
 <%- include('../partials/footer') %>

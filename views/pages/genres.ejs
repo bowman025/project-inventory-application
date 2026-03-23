@@ -3,7 +3,9 @@
   <div class="genres-page">
     <div class="genres-top">
       <h1>Genres</h1>
-      <button onclick="">ADD A GENRE</button>
+      <button command="show-modal" commandfor="add-genre">
+        ADD A GENRE
+      </button>
     </div>
     <ul class="genres-list">
       <% if (genres && genres.length > 0) { %>
@@ -17,5 +19,6 @@
       <% } %>
     </ul>
   </div>
+  <%- include('../partials/addGenre') %>
 </main>
 <%- include('../partials/footer') %>

@@ -1,0 +1,28 @@
+<dialog id="edit-genre">
+  <form action="/genres/<%= genreId %>/edit" method="post">
+    <label for="genre">Genre:</label>
+    <input
+      type="text"
+      name="name"
+      id="genre"
+      value="<%= genreName %>"
+      maxlength="50"
+      minlength="1"
+      required
+    >
+    <label for="password">Admin Password:</label>
+    <input 
+      type="password" 
+      id="password" 
+      name="password" 
+      maxlength="50" 
+      minlength="1" 
+      placeholder="Secret Password"
+      required
+    >
+    <button type="submit">Submit</button>
+  </form>
+  <button commandfor="edit-genre" command="close">
+    Close
+  </button>
+</dialog>

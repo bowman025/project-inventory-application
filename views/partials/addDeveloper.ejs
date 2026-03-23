@@ -1,0 +1,18 @@
+<dialog id="add-dev">
+  <form action="/developers" method="post">
+    <label for="developer">Developer:</label>
+    <input
+      type="text"
+      name="developer"
+      id="developer"
+      placeholder="Developer Name"
+      maxlength="50"
+      minlength="1"
+      required
+    >
+    <button type="submit">Submit</button>
+  </form>
+  <button commandfor="add-dev" command="close">
+    Close
+  </button>
+</dialog>

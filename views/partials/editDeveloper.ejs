@@ -1,0 +1,28 @@
+<dialog id="edit-dev">
+  <form action="/developers/<%= devId %>/edit" method="post">
+    <label for="developer">Developer:</label>
+    <input
+      type="text"
+      name="name"
+      id="developer"
+      value="<%= devName %>"
+      maxlength="50"
+      minlength="1"
+      required
+    >
+    <label for="password">Admin Password:</label>
+    <input 
+      type="password" 
+      id="password" 
+      name="password" 
+      maxlength="50" 
+      minlength="1" 
+      placeholder="Secret Password"
+      required
+    >
+    <button type="submit">Submit</button>
+  </form>
+  <button commandfor="edit-dev" command="close">
+    Close
+  </button>
+</dialog>

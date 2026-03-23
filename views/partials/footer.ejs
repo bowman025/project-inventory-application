@@ -10,6 +10,11 @@
         header.classList.remove('scrolled');
       }
     });
+    const deleteForm = document.querySelector('#delete-form');
+    const currentUrl = window.location.pathname;
+    if (deleteForm) {
+      deleteForm.action = `${currentUrl}/delete`;
+    }
   </script>
 </body>
 </html>

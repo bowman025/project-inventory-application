@@ -3,8 +3,12 @@
   <div class="genre-detail">
     <h1><%= genreName %></h1>
     <div class="genre-buttons">
-      <button onclick="">EDIT</button>
-      <button onclick="">DELETE</button>
+      <button command="show-modal" commandfor="edit-genre">
+        EDIT
+      </button>
+      <button command="show-modal" commandfor="delete">
+        DELETE
+      </button>
     </div>
     <h2>Games in this genre:</h2>
     <div class="game-grid">
@@ -22,5 +26,7 @@
       <% } %>
     </div>
   </div>
+  <%- include('../partials/deleteItem') %>
+  <%- include('../partials/editGenre') %>
 </main>
 <%- include('../partials/footer') %>
