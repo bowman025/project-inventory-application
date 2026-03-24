@@ -17,9 +17,9 @@
         <% if (game.developer_list.length > 0) { %>
           <p>Remove Developer(s):</p>
           <% if (game.developer_list.length > 1) { %>
-            <div class="associated-game-check">
-              <input type="checkbox" id="toggle-all">
-              <label class="checkbox-item select-all" for="toggle-all">
+            <div class="associated-developer-check">
+              <input type="checkbox" id="toggle-all-developers">
+              <label class="checkbox-item select-all" for="toggle-all-developers">
                 Select All
               </label>
             </div>
@@ -49,7 +49,7 @@
             <div class="all-developer">
               <input
                 type="checkbox"
-                name="AllDeveloperIds"
+                name="allDeveloperIds"
                 value="<%= dev.id %>"
                 class="developer-checkbox"
                 id="all-developer-<%= dev.id %>"
@@ -68,8 +68,8 @@
           <p>Remove Genre(s):</p>
           <% if (game.genre_list.length > 1) { %>
             <div class="associated-genre-check">
-              <input type="checkbox" id="toggle-all">
-              <label class="checkbox-item select-all" for="toggle-all">
+              <input type="checkbox" id="toggle-all-genres">
+              <label class="checkbox-item select-all" for="toggle-all-genres">
                 Select All
               </label>
             </div>
@@ -99,7 +99,7 @@
             <div class="all-genre">
               <input
                 type="checkbox"
-                name="AllGenreIds"
+                name="allGenreIds"
                 value="<%= genre.id %>"
                 class="genre-checkbox"
                 id="all-genre-<%= genre.id %>"
@@ -119,7 +119,7 @@
     <div class="edit-game-release-date">
       <label for="release-date">Edit Release Date:</label>
       <% const formattedDate = new Date(game.release_date).toISOString().split('T')[0]; %>
-      <input type="date" name="release-date" id="release-date" value="<%= formattedDate || '' %>">
+      <input type="date" name="release_date" id="release-date" value="<%= formattedDate || '' %>">
     </div>
     <div class="edit-game-rating">
       <label for="rating">Edit Rating:</label>

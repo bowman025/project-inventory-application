@@ -1,6 +1,7 @@
 const db = require('../db/queries');
 const formatDateTime = require('../utils/formatDateTime');
 const CustomValidationError = require('../errors/CustomValidationError');
+const cleanIds = require('../utils/cleanIds');
 
 async function gamesGet(req, res) {
   const games = await db.getAllGames();
@@ -14,9 +15,11 @@ async function gameGet(req, res) {
   const gameId = req.params.id;
   const game = await db.getGame(gameId);
   const devs = await db.getAllDevelopers();
-  const filteredDevs = devs.filter(dev => !game.developer_list.includes(dev));
+  const currentDevIds = game.developer_list.map(d => d.id); 
+  const filteredDevs = devs.filter(dev => !currentDevIds.includes(dev.id));
   const genres = await db.getAllGenres();
-  const filteredGenres = genres.filter(genre => !game.genre_list.includes(genre));
+  const currentGenreIds = game.genre_list.map(g => g.id);
+  const filteredGenres = genres.filter(genre => !currentGenreIds.includes(genre.id));
   const formatted = {
     ...game, 
     release_date: formatDateTime(game.release_date) 
@@ -42,16 +45,26 @@ async function gameAddPost(req, res) {
 async function gameEditPost(req, res, next) {
   try {
     const { id } = req.params;
-    const { name, password } = req.body;
-    const genreIds = [req.body.genreIds].flat().filter(Boolean);
-    const developerIds = [req.body.developerIds].flat().filter(Boolean);
+    const { 
+      name,
+      description,
+      release_date,
+      rating, 
+      password } = req.body;
+    const genreIds = cleanIds(req.body.genreIds);
+    const allGenreIds = cleanIds(req.body.allGenreIds);
+    const developerIds = cleanIds(req.body.developerIds);
+    const allDeveloperIds = cleanIds(req.body.allDeveloperIds);
     const isValid = password === process.env.ADMIN_PASS;
     if (!isValid) {
       return next(new CustomValidationError('Invalid password. Edit aborted.'));
     }
-    await db.updateGame(id, name);
-    if (gameIds.length > 0) await db.removeGamesFromDev(id, gameIds);
-    res.redirect(`/developers/${id}`);
+    await db.updateGame(
+      id, name, description, release_date, rating,
+      developerIds, allDeveloperIds,
+      genreIds, allGenreIds
+    );
+    res.redirect(`/games/${id}`);
   } catch (error) {
     console.error(error);
   }

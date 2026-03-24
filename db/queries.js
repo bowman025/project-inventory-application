@@ -158,33 +158,82 @@ async function addGenre(name) {
   }
 }
 
-async function updateGame(values) {
+async function updateGame(
+  id, name, description, release_date, rating,
+  developerIds, allDeveloperIds,
+  genreIds, allGenreIds,
+) {
+  console.log('DB UPDATE RECEIVED:', { 
+  id, genreIds, allGenreIds, developerIds, allDeveloperIds 
+  }, `genre ids length: ${genreIds.length} and all genre ids length: ${allGenreIds.length}`);
+  const client = await pool.connect();
   try {
-    
+    await client.query('BEGIN');
+
+    await client.query(`
+      UPDATE games
+      SET name = $1, description = $2, release_date = $3, rating = $4
+      WHERE id = $5
+    `, [name, description, release_date, rating, id]);
+
+    if (genreIds && genreIds.length > 0) {
+      await client. query(`
+        DELETE FROM game_genres
+        WHERE game_id = $1 AND genre_id = ANY($2::int[])
+      `, [id, genreIds]);
+    }
+
+    if (allGenreIds && allGenreIds.length > 0) {
+      await client.query(`
+        INSERT INTO game_genres (game_id, genre_id)
+        SELECT $1, unnest($2::int[])
+        ON CONFLICT (game_id, genre_id) DO NOTHING
+      `, [id, allGenreIds]);
+    }
+
+    if (developerIds && developerIds.length > 0) {
+      await client.query(`
+        DELETE FROM game_developers
+        WHERE game_id = $1 AND developer_id = ANY($2::int[])
+      `, [id, developerIds]);
+    }
+
+    if (allDeveloperIds && allDeveloperIds.length > 0) {
+      await client.query(`
+        INSERT INTO game_developers (game_id, developer_id)
+        SELECT $1, unnest($2::int[])
+        ON CONFLICT (game_id, developer_id) DO NOTHING
+      `, [id, allDeveloperIds]);
+    }
+
+    await client.query('COMMIT');
   } catch (error) {
     console.error('Error editing game:', error);
+    throw error;
+  } finally {
+    client.release();
   }
 }
 
 async function updateDeveloper(id, name) {
   try {
-  await pool.query(
-    'UPDATE developers SET name = $1 WHERE id = $2',
-    [name, id]
-  );
+    await pool.query(
+      'UPDATE developers SET name = $1 WHERE id = $2',
+      [name, id]
+    );
   } catch (error) {
-  console.error('Error editing developer:', error);
+    console.error('Error editing developer:', error);
   }
 }
 
 async function updateGenre(id, name) {
   try {
-  await pool.query(
-    'UPDATE genres SET name = $1 WHERE id = $2',
-    [name, id]
-  );
+    await pool.query(
+      'UPDATE genres SET name = $1 WHERE id = $2',
+      [name, id]
+    );
   } catch (error) {
-  console.error('Error editing genre:', error);
+    console.error('Error editing genre:', error);
   }
 }
 
