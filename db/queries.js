@@ -227,6 +227,22 @@ async function deleteGenre(id) {
   }
 }
 
+async function removeGamesFromDev(developerId, gameIds) {
+  await pool.query(`
+    DELETE FROM game_developers
+    WHERE developer_id = $1
+    AND game_id = ANY($2)
+  `, [developerId, gameIds]);
+}
+
+async function removeGamesFromGenre(genreId, gameIds) {
+  await pool.query(`
+    DELETE FROM game_genres
+    WHERE genre_id = $1
+    AND game_id = ANY($2)
+  `, [genreId, gameIds]);
+}
+
 async function searchGame(term) {
   const { rows } = await pool.query(
     'SELECT * FROM games WHERE name ILIKE $1',
@@ -254,5 +270,7 @@ module.exports = {
   deleteGame,
   deleteDeveloper,
   deleteGenre,
+  removeGamesFromDev,
+  removeGamesFromGenre,
   searchGame,
 }

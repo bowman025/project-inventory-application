@@ -1,6 +1,6 @@
 <dialog id="edit-genre">
   <form action="/genres/<%= genreId %>/edit" method="post">
-    <label for="genre">Genre:</label>
+    <label for="genre">Change Name:</label>
     <input
       type="text"
       name="name"
@@ -10,6 +10,22 @@
       minlength="1"
       required
     >
+    <p>Remove Game(s):</p>
+    <div class="associated-game-list">
+      <% games.forEach(game => { %>
+        <div class="associated-game">
+          <input
+            type="checkbox"
+            name="gameIds"
+            value="<%= game.id %>"
+            id="game-<%= game.id %>"
+          >
+          <label for="game-<%= game.id %>">
+            <%= game.name %>
+          </label>
+        </div>
+      <% }); %>
+    </div>
     <label for="password">Admin Password:</label>
     <input 
       type="password" 
@@ -17,7 +33,7 @@
       name="password" 
       maxlength="50" 
       minlength="1" 
-      placeholder="Secret Password"
+      placeholder="Password"
       required
     >
     <button type="submit">Submit</button>

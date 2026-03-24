@@ -1,6 +1,6 @@
 <dialog id="edit-dev">
   <form action="/developers/<%= devId %>/edit" method="post">
-    <label for="developer">Developer:</label>
+    <label for="developer">Change Name:</label>
     <input
       type="text"
       name="name"
@@ -10,6 +10,28 @@
       minlength="1"
       required
     >
+    <p>Remove Game(s):</p>
+    <div class="associated-game-check">
+      <input type="checkbox" id="toggle-all">
+      <label class="checkbox-item select-all" for="toggle-all">Select All</label>
+    </div>
+  </label>
+    <div class="associated-game-list">
+      <% games.forEach(game => { %>
+        <div class="associated-game">
+          <input
+            type="checkbox"
+            name="gameIds"
+            value="<%= game.id %>"
+            class="game-checkbox"
+            id="game-<%= game.id %>"
+          >
+          <label for="game-<%= game.id %>">
+            <%= game.name %>
+          </label>
+        </div>
+      <% }); %>
+    </div>
     <label for="password">Admin Password:</label>
     <input 
       type="password" 
@@ -17,7 +39,7 @@
       name="password" 
       maxlength="50" 
       minlength="1" 
-      placeholder="Secret Password"
+      placeholder="Password"
       required
     >
     <button type="submit">Submit</button>

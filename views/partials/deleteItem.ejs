@@ -1,5 +1,6 @@
 <dialog id="delete">
   <form id="delete-form" method="post">
+    <p>You are about to delete data. To do that, please enter the admin password below.</p>
     <label for="password">Admin Password:</label>
     <input 
       type="password" 
@@ -7,10 +8,10 @@
       name="password" 
       maxlength="50" 
       minlength="1" 
-      placeholder="Secret Password"
+      placeholder="Password"
       required
     >
-    <button type="submit">Delete</button>
+    <button type="submit">Submit</button>
   </form>
   <button commandfor="delete" command="close">Close</button>
 </dialog>

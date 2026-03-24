@@ -145,7 +145,7 @@ header {
     align-items: center;
   }
   #search {
-    width: 80px;
+    width: 90px;
     font-size: 1.2rem;
     color: var(--accent);
     background-color: var(--ter-bgd);
@@ -454,12 +454,12 @@ main {
 }
 
 dialog {
-  text-align: end;
-  width: clamp(250px, 60vw, 800px);
+  width: clamp(250px, 80vw, 600px);
   color: var(--text);
   background-color: var(--prim-bgd);
   border: 2px solid var(--accent);
   border-radius: 10px;
+  scrollbar-width: none;
   form {
     display: flex;
     flex-direction: column;
@@ -467,17 +467,46 @@ dialog {
     justify-content: center;
     align-items: center;
     margin-bottom: 20px;
+    label, p {
+      font-size: 1.4rem;
+    }
     input {
-      font-size: 1.2rem;
+      width: 100%;
+      margin: 0;
+      font-size: 1.4rem;
       color: var(--accent);
       background-color: var(--ter-bgd);
       border: none;
       border-radius: 8px;
       outline: 1px solid var(--ter-bgd);
-      padding: 1px 8px 3px;
+      padding: 8px;
+      margin-bottom: 10px;
     }
     input:focus-visible {
       outline: 1px solid var(--accent);
+    }
+    .associated-game-check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .associated-game-list {
+      max-height: 50dvh;
+      overflow: scroll;
+      scrollbar-width: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+      border-top: 1px solid var(--accent);
+      border-bottom: 1px solid var(--accent);
+    }
+    .associated-game {
+      align-self: flex-start;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     button {
       cursor: pointer;
@@ -485,15 +514,41 @@ dialog {
       border-radius: 8px;
       padding: 4px 8px;
       background-color: var(--accent);
+      font-size: 1.4rem;
     }
   }
   button {
-    align-self: e;
+    float: right;
+    cursor: pointer;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 8px;
+    background-color: var(--accent);
+    font-size: 1.4rem;
+  }
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-grid;
+  place-content: center;
+  width: 30px;
+  height: 30px;
+  background-color: var(--prim-bgd);
+  border-radius: none;
+  border: 1px solid var(--accent);
   cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  padding: 4px 8px;
-  background-color: var(--accent);
+  margin-right: 10px;
+  margin-bottom: 0;
+  &::before {
+    content: "";
+    width: 30px;
+    height: 30px;
+  }
+  &:checked::before {
+    background-color: var(--accent);
+    clip-path: polygon( 20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30% );
   }
 }
 

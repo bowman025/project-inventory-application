@@ -15,6 +15,22 @@
     if (deleteForm) {
       deleteForm.action = `${currentUrl}/delete`;
     }
+    const toggleAll = document.getElementById('toggle-all');
+    const gameCheckboxes = document.querySelectorAll('.game-checkbox');
+
+    toggleAll.addEventListener('change', () => {
+      gameCheckboxes.forEach(checkbox => {
+        checkbox.checked = toggleAll.checked;
+      });
+    });
+
+    gameCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', () => {
+        if (!checkbox.checked) {
+          toggleAll.checked = false;
+        }
+      });
+    });
   </script>
 </body>
 </html>
