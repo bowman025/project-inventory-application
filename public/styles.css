@@ -491,7 +491,8 @@ dialog {
       justify-content: center;
     }
     .associated-game-list {
-      max-height: 40dvh;
+      align-self: stretch;
+      max-height: 45dvh;
       overflow: scroll;
       scrollbar-width: none;
       display: flex;

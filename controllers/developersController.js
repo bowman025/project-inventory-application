@@ -48,13 +48,13 @@ async function developerEditPost(req, res, next) {
   }
 }
 
-async function developerDeletePost(req, res) {
+async function developerDeletePost(req, res, next) {
   try {
     const { id } = req.params;
     const { password } = req.body;
     const isValid = password === process.env.ADMIN_PASS;
     if (!isValid) {
-      return res.status(401).send('Invalid password. Deletion aborted.');
+      return next(new CustomValidationError('Invalid password. Edit aborted.'));
     }
     await db.deleteDeveloper(id);
     res.redirect('/developers');

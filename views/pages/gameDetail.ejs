@@ -44,10 +44,16 @@
         <span class="emphasize">Steam ID:</span> <%= game.steam_id || "N/A" %>
       </p>
       <div class="game-detail-buttons">
-        <button onclick="">EDIT</button>
-        <button onclick="">DELETE</button>
+        <button command="show-modal" commandfor="edit-game">
+          EDIT
+        </button>
+        <button command="show-modal" commandfor="delete">
+          DELETE
+        </button>
       </div>
     </div>
   </div>
+  <%- include('../partials/deleteItem') %>
+  <%- include('../partials/editGame') %>
 </main>
 <%- include('../partials/footer') %>

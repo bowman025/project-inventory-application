@@ -1,6 +1,6 @@
 const db = require('../db/queries');
 
-async function gameGet(req, res) {
+async function indexGameGet(req, res) {
   const search = req.query.search?.trim();
   if (search) {
     const results = await db.searchGame(search);
@@ -19,4 +19,4 @@ async function gameGet(req, res) {
   }
 }
 
-module.exports = { gameGet, };
+module.exports = { indexGameGet, };

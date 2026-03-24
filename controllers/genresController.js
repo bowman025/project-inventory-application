@@ -48,13 +48,13 @@ async function genreEditPost(req, res, next) {
   }
 }
 
-async function genreDeletePost(req, res) {
+async function genreDeletePost(req, res, next) {
   try {
     const { id } = req.params;
     const { password } = req.body;
     const isValid = password === process.env.ADMIN_PASS;
     if (!isValid) {
-      return res.status(401).send('Invalid password. Deletion aborted.');
+      return next(new CustomValidationError('Invalid password. Deletion aborted.'));
     }
     await db.deleteGenre(id);
     res.redirect('/genres');
