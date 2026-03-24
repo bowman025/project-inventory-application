@@ -491,14 +491,14 @@ dialog {
       justify-content: center;
     }
     .associated-game-list {
-      max-height: 50dvh;
+      max-height: 40dvh;
       overflow: scroll;
       scrollbar-width: none;
       display: flex;
       flex-direction: column;
       gap: 10px;
       padding: 12px;
-      margin-bottom: 12px;
+      margin: 10px 0;
       border-top: 1px solid var(--accent);
       border-bottom: 1px solid var(--accent);
     }

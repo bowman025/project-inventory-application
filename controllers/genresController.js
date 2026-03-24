@@ -35,11 +35,13 @@ async function genreEditPost(req, res, next) {
   try {
     const { id } = req.params;
     const { name, password } = req.body;
+    const gameIds = [req.body.gameIds].flat().filter(Boolean);
     const isValid = password === process.env.ADMIN_PASS;
     if (!isValid) {
       return next(new CustomValidationError('Invalid password. Edit aborted.'));
     }
     await db.updateGenre(id, name);
+    if (gameIds.length > 0) await db.removeGamesFromGenre(id, gameIds);
     res.redirect(`/genres/${id}`);
   } catch (error) {
     console.error(error);

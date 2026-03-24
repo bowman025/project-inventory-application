@@ -36,7 +36,6 @@ async function developerEditPost(req, res, next) {
     const { id } = req.params;
     const { name, password } = req.body;
     const gameIds = [req.body.gameIds].flat().filter(Boolean);
-    console.log(gameIds);
     const isValid = password === process.env.ADMIN_PASS;
     if (!isValid) {
       return next(new CustomValidationError('Invalid password. Edit aborted.'));

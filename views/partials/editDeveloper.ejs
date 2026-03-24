@@ -10,28 +10,33 @@
       minlength="1"
       required
     >
-    <p>Remove Game(s):</p>
-    <div class="associated-game-check">
-      <input type="checkbox" id="toggle-all">
-      <label class="checkbox-item select-all" for="toggle-all">Select All</label>
-    </div>
-  </label>
-    <div class="associated-game-list">
-      <% games.forEach(game => { %>
-        <div class="associated-game">
-          <input
-            type="checkbox"
-            name="gameIds"
-            value="<%= game.id %>"
-            class="game-checkbox"
-            id="game-<%= game.id %>"
-          >
-          <label for="game-<%= game.id %>">
-            <%= game.name %>
+    <% if (games.length > 0) { %>
+      <p>Remove Game(s):</p>
+      <% if (games.length > 1) { %>
+        <div class="associated-game-check">
+          <input type="checkbox" id="toggle-all">
+          <label class="checkbox-item select-all" for="toggle-all">
+            Select All
           </label>
         </div>
-      <% }); %>
-    </div>
+      <% } %>
+      <div class="associated-game-list">
+        <% games.forEach(game => { %>
+          <div class="associated-game">
+            <input
+              type="checkbox"
+              name="gameIds"
+              value="<%= game.id %>"
+              class="game-checkbox"
+              id="game-<%= game.id %>"
+            >
+            <label for="game-<%= game.id %>">
+              <%= game.name %>
+            </label>
+          </div>
+        <% }); %>
+      </div>
+    <% } %>
     <label for="password">Admin Password:</label>
     <input 
       type="password" 
