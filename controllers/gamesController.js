@@ -1,7 +1,7 @@
 const db = require('../db/queries');
 const formatDateTime = require('../utils/formatDateTime');
-const CustomValidationError = require('../errors/CustomValidationError');
 const cleanIds = require('../utils/cleanIds');
+const CustomValidationError = require('../errors/CustomValidationError');
 
 async function gamesGet(req, res) {
   const games = await db.getAllGames();

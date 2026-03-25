@@ -1,24 +1,35 @@
 const db = require('../db/queries');
+const cleanIds = require('../utils/cleanIds');
 const CustomValidationError = require('../errors/CustomValidationError');
 
 async function genresGet(req, res) {
-  const genres = await db.getAllGenres();
-  res.render('genres', {
-    title: 'The Game Inventory: Genres',
-    genres: genres,
-  });
+  try {
+    const genres = await db.getAllGenres();
+    res.render('genres', {
+      title: 'The Game Inventory: Genres',
+      genres: genres,
+    });
+  } catch (error) {
+   console.error(error); 
+  }
 }
 
 async function gamesByGenreGet(req, res) {
-  const genreId = req.params.id;
-  const games = await db.getAllGamesByGenre(genreId);
-  const genreName = await db.getGenreName(genreId);
-  res.render('genreDetail', {
-    title: `The Game Inventory: Games in ${genreName}`,
-    games: games,
-    genreName: genreName,
-    genreId: genreId,
-  });
+  try {
+    const genreId = req.params.id;
+    const genreName = await db.getGenreName(genreId);
+    const games = await db.getAllGamesInGenre(genreId);
+    const allGames = await db.getAllGamesNotInGenre(genreId);
+    res.render('genreDetail', {
+      title: `The Game Inventory: Games in ${genreName}`,
+      games: games,
+      allGames: allGames,
+      genreName: genreName,
+      genreId: genreId,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function genreAddPost(req, res) {
@@ -35,13 +46,13 @@ async function genreEditPost(req, res, next) {
   try {
     const { id } = req.params;
     const { name, password } = req.body;
-    const gameIds = [req.body.gameIds].flat().filter(Boolean);
+    const gameIds = cleanIds(req.body.gameIds);
+    const allGameIds = cleanIds(req.body.allGameIds);
     const isValid = password === process.env.ADMIN_PASS;
     if (!isValid) {
       return next(new CustomValidationError('Invalid password. Edit aborted.'));
     }
-    await db.updateGenre(id, name);
-    if (gameIds.length > 0) await db.removeGamesFromGenre(id, gameIds);
+    await db.updateGenre(id, name, gameIds, allGameIds);
     res.redirect(`/genres/${id}`);
   } catch (error) {
     console.error(error);

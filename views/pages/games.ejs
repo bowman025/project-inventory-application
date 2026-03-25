@@ -12,7 +12,15 @@
             <a href="/games/<%= game.id %>">
               <img src="<%= game.image %>" alt="<%= game.name %>">
             </a>
-            <h2><a href="/games/<%= game.id %>"><%= game.name %></a></h2>
+            <h2>
+              <a href="/games/<%= game.id %>">
+                <% if (game.name.length > 38) { %>
+                  <%= game.name.substring(0, 36) %>...
+                <% }  else { %>
+                  <%= game.name %>
+                <% } %>
+              </a>
+            </h2>
           </div>
         <% }); %>
       <% } else { %>

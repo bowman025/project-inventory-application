@@ -1,52 +1,86 @@
 <dialog id="edit-genre">
   <form action="/genres/<%= genreId %>/edit" method="post">
-    <label for="genre">Change Name:</label>
-    <input
-      type="text"
-      name="name"
-      id="genre"
-      value="<%= genreName %>"
-      maxlength="50"
-      minlength="1"
-      required
-    >
+    <div class="edit-genre-name">
+      <label for="genre">Change Name:</label>
+      <input
+        type="text"
+        name="name"
+        id="genre"
+        value="<%= genreName %>"
+        maxlength="50"
+        minlength="1"
+      >
+    </div>
     <% if (games.length > 0) { %>
-      <p>Remove Game(s):</p>
-      <% if (games.length > 1) { %>
-        <div class="associated-game-check">
-          <input type="checkbox" id="toggle-all">
-          <label class="checkbox-item select-all" for="toggle-all">
-            Select All
-          </label>
-        </div>
-      <% } %>
-      <div class="associated-game-list">
-        <% games.forEach(game => { %>
-          <div class="associated-game">
-            <input
-              type="checkbox"
-              name="gameIds"
-              value="<%= game.id %>"
-              class="game-checkbox"
-              id="game-<%= game.id %>"
-            >
-            <label for="game-<%= game.id %>">
-              <%= game.name %>
+      <div class="edit-remove-games">
+        <p>Remove Game(s):</p>
+        <% if (games.length > 1) { %>
+          <div class="associated-game-check">
+            <input type="checkbox" id="toggle-all">
+            <label class="checkbox-item select-all" for="toggle-all">
+              Select All
             </label>
           </div>
-        <% }); %>
+        <% } %>
+        <div class="associated-game-list">
+          <% games.forEach(game => { %>
+            <div class="associated-game">
+              <input
+                type="checkbox"
+                name="gameIds"
+                value="<%= game.id %>"
+                class="game-checkbox"
+                id="game-<%= game.id %>"
+              >
+              <label for="game-<%= game.id %>">
+                <%= game.name %>
+              </label>
+            </div>
+          <% }); %>
+        </div>
       </div>
     <% } %>
-    <label for="password">Admin Password:</label>
-    <input 
-      type="password" 
-      id="password" 
-      name="password" 
-      maxlength="50" 
-      minlength="1" 
-      placeholder="Password"
-      required
-    >
+    <% if (allGames.length > 0) { %>
+      <div class="edit-add-games">
+        <p>Add Game(s):</p>
+        <% if (allGames.length > 1) { %>
+          <div class="all-game-check">
+            <input type="checkbox" id="toggle-all">
+            <label class="checkbox-item select-all" for="toggle-all">
+              Select All
+            </label>
+          </div>
+        <% } %>
+        <div class="all-game-list">
+          <% allGames.forEach(allGame => { %>
+            <div class="all-game">
+              <input
+                type="checkbox"
+                name="allGameIds"
+                value="<%= allGame.id %>"
+                class="all-game-checkbox"
+                id="all-game-<%= allGame.id %>"
+              >
+              <label for="game-<%= allGame.id %>">
+                <%= allGame.name %>
+              </label>
+            </div>
+          <% }); %>
+        </div>
+      </div>
+    <% } %>
+    <div class="edit-admin-password">
+      <label for="password">Admin Password:</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        maxlength="50"
+        minlength="1"
+        placeholder="Password"
+        required
+      >
+    </div>
     <button type="submit">Submit</button>
   </form>
   <button commandfor="edit-genre" command="close">

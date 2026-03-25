@@ -24,6 +24,7 @@ app.use('/developers', developersRouter);
 app.use('/genres', genresRouter);
 
 app.use((req, res, next) => {
+  console.log("Unmatched URL:", req.url);
   next(new CustomNotFoundError('Page Not Found.'));
 });
 

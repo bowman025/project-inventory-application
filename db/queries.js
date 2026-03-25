@@ -37,7 +37,7 @@ async function getGame(id) {
   }
 }
 
-async function getRandomHighlights(req, res) {
+async function getRandomHighlights() {
   const query = `
     WITH rg AS (
       SELECT * FROM games ORDER BY RANDOM() LIMIT 1
@@ -84,26 +84,49 @@ async function getAllGamesByDev(id) {
   }
 }
 
+async function getAllGamesNotByDev(id) {
+  try {
+    const { rows } = await pool.query(`
+      SELECT * FROM games
+      WHERE id NOT IN (
+        SELECT game_id FROM game_developers WHERE developer_id = $1
+      );  
+    `, [id]);
+    return rows;
+  } catch (error) {
+    console.error('Query failed', error);
+  }
+}
+
 async function getDevName(id) {
   const { rows } = await pool.query('SELECT name FROM developers WHERE id = $1', [id]);
   return rows[0]?.name || 'Unknown Developer';
 }
 
-async function getAllGamesByGenre(id) {
+async function getAllGamesInGenre(id) {
   const query = `
-    SELECT 
-      g.*, 
-      ARRAY_AGG(DISTINCT JSONB_BUILD_OBJECT('id', d.id, 'name', d.name)) AS developer_list
+    SELECT g.*
     FROM games g
     JOIN game_genres gg ON g.id = gg.game_id
-    LEFT JOIN game_developers gd ON g.id = gd.game_id
-    LEFT JOIN developers d ON gd.developer_id = d.id
     WHERE gg.genre_id = $1
-    GROUP BY g.id
-    ORDER BY g.rating DESC;
+    ORDER BY g.release_date DESC;
   `;
   try {
     const { rows } = await pool.query(query, [id]);
+    return rows;
+  } catch (error) {
+    console.error('Query failed', error);
+  }
+}
+
+async function getAllGamesNotInGenre(id) {
+  try {
+    const { rows } = await pool.query(`
+      SELECT * FROM games
+      WHERE id NOT IN (
+        SELECT game_id FROM game_genres WHERE genre_id = $1
+      );  
+    `, [id]);
     return rows;
   } catch (error) {
     console.error('Query failed', error);
@@ -163,9 +186,6 @@ async function updateGame(
   developerIds, allDeveloperIds,
   genreIds, allGenreIds,
 ) {
-  console.log('DB UPDATE RECEIVED:', { 
-  id, genreIds, allGenreIds, developerIds, allDeveloperIds 
-  }, `genre ids length: ${genreIds.length} and all genre ids length: ${allGenreIds.length}`);
   const client = await pool.connect();
   try {
     await client.query('BEGIN');
@@ -215,25 +235,73 @@ async function updateGame(
   }
 }
 
-async function updateDeveloper(id, name) {
+async function updateDeveloper(id, name, gameIds, allGameIds) {
+  const client = await pool.connect();
   try {
+    await client.query('BEGIN');
+
     await pool.query(
       'UPDATE developers SET name = $1 WHERE id = $2',
       [name, id]
     );
+
+    if (gameIds && gameIds.length > 0) {
+      await client.query(`
+        DELETE FROM game_developers
+        WHERE developer_id = $1
+        AND game_id = ANY($2)
+      `, [id, gameIds]);
+    }
+
+    if (allGameIds && allGameIds.length > 0) {
+      await client.query(`
+        INSERT INTO game_developers (game_id, developer_id)
+        SELECT unnest($1::int[]), $2
+        ON CONFLICT (game_id, developer_id) DO NOTHING;  
+      `, [allGameIds, id]);
+    }
+
+    await client.query('COMMIT');
   } catch (error) {
     console.error('Error editing developer:', error);
+    throw(error);
+  } finally {
+    client.release();
   }
 }
 
-async function updateGenre(id, name) {
+async function updateGenre(id, name, gameIds, allGameIds) {
+  const client = await pool.connect();
   try {
-    await pool.query(
+    await client.query('BEGIN');
+
+    await client.query(
       'UPDATE genres SET name = $1 WHERE id = $2',
       [name, id]
     );
+
+    if (gameIds && gameIds.length > 0) {
+      await client.query(`
+        DELETE FROM game_genres
+        WHERE genre_id = $1
+        AND game_id = ANY($2)
+      `, [id, gameIds]);
+    }
+
+    if (allGameIds && allGameIds.length > 0) {
+      await client.query(`
+        INSERT INTO game_genres (game_id, genre_id)
+        SELECT unnest($1::int[]), $2
+        ON CONFLICT (game_id, genre_id) DO NOTHING;
+      `, [allGameIds, id]);
+    }
+
+    await client.query('COMMIT');
   } catch (error) {
     console.error('Error editing genre:', error);
+    throw error;
+  } finally {
+    client.release();
   }
 }
 
@@ -276,22 +344,6 @@ async function deleteGenre(id) {
   }
 }
 
-async function removeGamesFromDev(developerId, gameIds) {
-  await pool.query(`
-    DELETE FROM game_developers
-    WHERE developer_id = $1
-    AND game_id = ANY($2)
-  `, [developerId, gameIds]);
-}
-
-async function removeGamesFromGenre(genreId, gameIds) {
-  await pool.query(`
-    DELETE FROM game_genres
-    WHERE genre_id = $1
-    AND game_id = ANY($2)
-  `, [genreId, gameIds]);
-}
-
 async function searchGame(term) {
   const { rows } = await pool.query(
     'SELECT * FROM games WHERE name ILIKE $1',
@@ -307,8 +359,10 @@ module.exports = {
   getGame,
   getRandomHighlights,
   getAllGamesByDev,
+  getAllGamesNotByDev,
   getDevName,
-  getAllGamesByGenre,
+  getAllGamesInGenre,
+  getAllGamesNotInGenre,
   getGenreName,
   addGame,
   addDeveloper,
@@ -319,7 +373,5 @@ module.exports = {
   deleteGame,
   deleteDeveloper,
   deleteGenre,
-  removeGamesFromDev,
-  removeGamesFromGenre,
   searchGame,
 }

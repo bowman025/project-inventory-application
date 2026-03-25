@@ -1,24 +1,35 @@
 const db = require('../db/queries');
+const cleanIds = require('../utils/cleanIds');
 const CustomValidationError = require('../errors/CustomValidationError');
 
 async function developersGet(req, res) {
-  const developers = await db.getAllDevelopers();
-  res.render('developers', {
-    title: 'The Game Inventory: Developers',
-    developers: developers,
-  });
+  try {
+    const developers = await db.getAllDevelopers();
+    res.render('developers', {
+      title: 'The Game Inventory: Developers',
+      developers: developers,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function gamesByDevGet(req, res) {
-  const devId = req.params.id;
-  const games = await db.getAllGamesByDev(devId);
-  const devName = await db.getDevName(devId);
-  res.render('developerDetail', {
-    title: `The Game Inventory: ${devName}`,
-    games: games,
-    devName: devName,
-    devId: devId,
-  });
+  try {
+    const devId = req.params.id;
+    const devName = await db.getDevName(devId);
+    const games = await db.getAllGamesByDev(devId);
+    const allGames = await db.getAllGamesNotByDev(devId);
+    res.render('developerDetail', {
+      title: `The Game Inventory: ${devName}`,
+      games: games,
+      allGames: allGames,
+      devName: devName,
+      devId: devId,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 async function developerAddPost(req, res) {
@@ -35,13 +46,13 @@ async function developerEditPost(req, res, next) {
   try {
     const { id } = req.params;
     const { name, password } = req.body;
-    const gameIds = [req.body.gameIds].flat().filter(Boolean);
+    const gameIds = cleanIds(req.body.gameIds);
+    const allGameIds = cleanIds(req.body.allGameIds);
     const isValid = password === process.env.ADMIN_PASS;
     if (!isValid) {
       return next(new CustomValidationError('Invalid password. Edit aborted.'));
     }
-    await db.updateDeveloper(id, name);
-    if (gameIds.length > 0) await db.removeGamesFromDev(id, gameIds);
+    await db.updateDeveloper(id, name, gameIds, allGameIds);
     res.redirect(`/developers/${id}`);
   } catch (error) {
     console.error(error);
