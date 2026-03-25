@@ -13,13 +13,13 @@
       >
     </div>
     <div class="edit-game-developer">
-      <div class="edit-game-developer-remove">
-        <% if (game.developer_list.length > 0) { %>
+      <% if (game.developer_list.length > 0) { %>
+        <div class="edit-game-developer-remove">
           <p>Remove Developer(s):</p>
           <% if (game.developer_list.length > 1) { %>
             <div class="associated-developer-check">
-              <input type="checkbox" id="toggle-all-developers">
-              <label class="checkbox-item select-all" for="toggle-all-developers">
+              <input type="checkbox" id="toggle-all-developers-remove">
+              <label for="toggle-all-developers-remove">
                 Select All
               </label>
             </div>
@@ -31,7 +31,7 @@
                   type="checkbox"
                   name="developerIds"
                   value="<%= developer.id %>"
-                  class="developer-checkbox"
+                  class="developer-checkbox-remove"
                   id="developer-<%= developer.id %>"
                 >
                 <label for="developer-<%= developer.id %>">
@@ -40,36 +40,46 @@
               </div>
             <% }); %>
           </div>
-        <% } %>
-      </div>
-      <div class="edit-game-developer-add">
-        <p>Add Developer(s):</p>
-        <div class="all-developer-list">
-          <% allDevs.forEach(dev => { %>
-            <div class="all-developer">
-              <input
-                type="checkbox"
-                name="allDeveloperIds"
-                value="<%= dev.id %>"
-                class="developer-checkbox"
-                id="all-developer-<%= dev.id %>"
-              >
-              <label for="all-developer-<%= dev.id %>">
-                <%= dev.name %>
+        </div>
+      <% } %>
+      <% if (allDevs.length > 0) { %>
+        <div class="edit-game-developer-add">
+          <p>Add Developer(s):</p>
+          <% if (allDevs.length > 1) { %>
+            <div class="all-developer-check">
+              <input type="checkbox" id="toggle-all-developers-add">
+              <label for="toggle-all-developers-add">
+                Select All
               </label>
             </div>
-          <% }); %>
+          <% } %>
+          <div class="all-developer-list">
+            <% allDevs.forEach(dev => { %>
+              <div class="all-developer">
+                <input
+                  type="checkbox"
+                  name="allDeveloperIds"
+                  value="<%= dev.id %>"
+                  class="developer-checkbox-add"
+                  id="all-developer-<%= dev.id %>"
+                >
+                <label for="all-developer-<%= dev.id %>">
+                  <%= dev.name %>
+                </label>
+              </div>
+            <% }); %>
+          </div>
         </div>
-      </div>
+      <% } %>
     </div>
     <div class="edit-game-genre">
-      <div class="edit-game-genre-remove">
-        <% if (game.genre_list.length > 0) { %>
+      <% if (game.genre_list.length > 0) { %>
+        <div class="edit-game-genre-remove">
           <p>Remove Genre(s):</p>
           <% if (game.genre_list.length > 1) { %>
             <div class="associated-genre-check">
-              <input type="checkbox" id="toggle-all-genres">
-              <label class="checkbox-item select-all" for="toggle-all-genres">
+              <input type="checkbox" id="toggle-all-genres-remove">
+              <label or="toggle-all-genres-remove">
                 Select All
               </label>
             </div>
@@ -81,7 +91,7 @@
                   type="checkbox"
                   name="genreIds"
                   value="<%= genre.id %>"
-                  class="genre-checkbox"
+                  class="genre-checkbox-remove"
                   id="genre-<%= genre.id %>"
                 >
                 <label for="genre-<%= genre.id %>">
@@ -90,27 +100,37 @@
               </div>
             <% }); %>
           </div>
-        <% } %>
-      </div>
-      <div class="edit-game-genre-add">
-        <p>Add Genre(s):</p>
-        <div class="all-genre-list">
-          <% allGenres.forEach(genre => { %>
-            <div class="all-genre">
-              <input
-                type="checkbox"
-                name="allGenreIds"
-                value="<%= genre.id %>"
-                class="genre-checkbox"
-                id="all-genre-<%= genre.id %>"
-              >
-              <label for="all-genre-<%= genre.id %>">
-                <%= genre.name %>
+        </div>
+      <% } %>
+      <% if (allGenres.length > 0) { %>
+        <div class="edit-game-genre-add">
+          <p>Add Genre(s):</p>
+          <% if (allGenres.length > 1) { %>
+            <div class="all-genre-check">
+              <input type="checkbox" id="toggle-all-genres-add">
+              <label for="toggle-all-genres-add">
+                Select All
               </label>
             </div>
-          <% }); %>
+          <% } %>
+          <div class="all-genre-list">
+            <% allGenres.forEach(genre => { %>
+              <div class="all-genre">
+                <input
+                  type="checkbox"
+                  name="allGenreIds"
+                  value="<%= genre.id %>"
+                  class="genre-checkbox-add"
+                  id="all-genre-<%= genre.id %>"
+                >
+                <label for="all-genre-<%= genre.id %>">
+                  <%= genre.name %>
+                </label>
+              </div>
+            <% }); %>
+          </div>
         </div>
-      </div>
+      <% } %>
     </div>
     <div class="edit-game-description">
       <label for="description">Edit Description:</label>

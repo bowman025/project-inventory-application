@@ -145,7 +145,7 @@ header {
     align-items: center;
   }
   #search {
-    width: 90px;
+    width: 94px;
     font-size: 1.2rem;
     color: var(--accent);
     background-color: var(--ter-bgd);
