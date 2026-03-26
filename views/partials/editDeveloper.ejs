@@ -1,7 +1,7 @@
 <dialog id="edit-dev">
   <form action="/developers/<%= devId %>/edit" method="post">
     <div class="edit-developer-name">
-      <label for="developer">Change Name:</label>
+      <label for="developer" class="accented-text">Change Name:</label>
       <input
         type="text"
         name="name"
@@ -14,7 +14,7 @@
     <div class="edit-games">
       <% if (games.length > 0) { %>
         <div class="edit-remove-games">
-          <p>Remove Game(s):</p>
+          <p class="accented-text">Remove Game(s):</p>
           <% if (games.length > 1) { %>
             <div class="associated-game-check">
               <input type="checkbox" id="toggle-all-remove">
@@ -43,7 +43,7 @@
       <% } %>
       <% if (allGames.length > 0) { %>
         <div class="edit-add-games">
-          <p>Add Game(s):</p>
+          <p class="accented-text">Add Game(s):</p>
           <% if (allGames.length > 1) { %>
             <div class="all-game-check">
               <input type="checkbox" id="toggle-all-add">
@@ -62,7 +62,7 @@
                   class="game-checkbox-add"
                   id="all-game-<%= allGame.id %>"
                 >
-                <label for="game-<%= allGame.id %>">
+                <label for="all-game-<%= allGame.id %>">
                   <%= allGame.name %>
                 </label>
               </div>
@@ -72,7 +72,7 @@
       <% } %>
     </div>
     <div class="edit-admin-password">
-      <label for="password">Admin Password:</label>
+      <label for="password" class="accented-text">Admin Password:</label>
       <input
         type="password"
         id="password"
@@ -83,9 +83,9 @@
         required
       >
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit">SUBMIT</button>
   </form>
   <button commandfor="edit-dev" command="close">
-    Close
+    CLOSE
   </button>
 </dialog>

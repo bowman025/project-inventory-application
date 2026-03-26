@@ -1,8 +1,7 @@
 <dialog id="add-game">
   <form action="/games" method="post">
-    <p>Let's keep this simple.</p>
-    <p>Please provide a valid Steam ID and we'll take care of the rest.</p>
-    <label for="steamId">Steam ID:</label>
+    <p>Please provide a valid <a href="https://steamdb.info/apps/" target="_blank" rel="noopener noreferrer">Steam App ID</a> and we'll take care of the rest.</p>
+    <label for="steamId" class="accented-text">Steam App ID:</label>
     <input 
       type="number" 
       id="steamId" 
@@ -11,7 +10,7 @@
       max="9999999999"
       required
     >
-    <button type="submit">Submit</button>
+    <button type="submit">SUBMIT</button>
   </form>
-  <button commandfor="add-game" command="close">Close</button>
+  <button commandfor="add-game" command="close">CLOSE</button>
 </dialog>

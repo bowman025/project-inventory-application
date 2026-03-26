@@ -6,30 +6,27 @@
       <h1><%= game.name %></h1>
       <p class="developers">
         <span class="emphasize">By:</span>
-        <% game.developer_list.forEach((dev, index) => { %>
-          <% if (dev.id) { %>
-            <span>
-              <a href="/developers/<%= dev.id %>">
-                <%= dev.name %>
-              </a>
-              <%= index < game.developer_list.length - 1 ? ', ' : '' %>
+        <% if (game.developer_list.length > 0) { %>
+          <% game.developer_list.forEach((dev, index) => { %>
+            <span><a href="/developers/<%= dev.id %>" class="developer-tag">
+                <%= dev.name %></a><%= index < game.developer_list.length - 1 ? ', ' : '' %>
             </span>
-          <% } else { %>
-            Unknown
-          <% } %>
-        <% }); %>
+          <% }); %>
+        <% } else { %>
+          <span>Unknown</span>
+        <% } %>
       </p>
       <p class="genres">
         <span class="emphasize">Genres:</span>
-        <% game.genre_list.forEach((genre, index) => { %>
-          <% if (genre.id) { %>
+        <% if (game.genre_list.length > 0) { %>
+          <% game.genre_list.forEach((genre, index) => { %>
             <span><a href="/genres/<%= genre.id %>" class="genre-tag">
               <%= genre.name %></a><%= index < game.genre_list.length - 1 ? ', ' : '' %>
             </span>
-          <% } else { %>
-            N/A
-          <% } %>
-        <% }); %>
+          <% }); %>
+        <% } else { %>
+            <span>N/A</span>
+        <% } %>
       </p>
       <p class="description">
         <span class="emphasize">Description:</span> <%= game.description || "None" %>

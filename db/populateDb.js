@@ -183,7 +183,7 @@ async function seed() {
     await client.query('COMMIT');
     console.log('Seeding completed successfully.');
   } catch (error) {
-    if (client._connected) await client.query('ROLLBACK');
+    await client.query('ROLLBACK');
     console.error('Seeding failed. Rolling back: ', error);
   } finally {
     await client.end();

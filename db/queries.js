@@ -19,8 +19,16 @@ async function getGame(id) {
   const query = `
     SELECT 
       g.*,
-      ARRAY_AGG(DISTINCT JSONB_BUILD_OBJECT('id', d.id, 'name', d.name)) AS developer_list,
-      ARRAY_AGG(DISTINCT JSONB_BUILD_OBJECT('id', gen.id, 'name', gen.name)) AS genre_list
+      COALESCE(
+        ARRAY_AGG(DISTINCT JSONB_BUILD_OBJECT('id', d.id, 'name', d.name))
+        FILTER (WHERE d.id IS NOT NULL),
+        '{}'
+      ) AS developer_list,
+      COALESCE(
+        ARRAY_AGG(DISTINCT JSONB_BUILD_OBJECT('id', gen.id, 'name', gen.name))
+        FILTER (WHERE gen.id IS NOT NULL),
+        '{}'
+      ) AS genre_list 
     FROM games g
     LEFT JOIN game_developers gd ON g.id = gd.game_id
     LEFT JOIN developers d ON gd.developer_id = d.id
@@ -31,9 +39,11 @@ async function getGame(id) {
   `;
   try {
     const { rows } = await pool.query(query, [id]);
+    if (rows.length === 0) return null;
     return rows[0];
   } catch (error) {
     console.error('Query failed', error);
+    throw error;
   }
 }
 

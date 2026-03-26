@@ -1,7 +1,7 @@
 <dialog id="edit-game">
   <form action="/games/<%= game.id %>/edit" method="post">
     <div class="edit-game-name">
-      <label for="game">Change Name:</label>
+      <label for="game" class="accented-text">Change Name:</label>
       <input
         type="text"
         name="name"
@@ -15,7 +15,7 @@
     <div class="edit-game-developer">
       <% if (game.developer_list.length > 0) { %>
         <div class="edit-game-developer-remove">
-          <p>Remove Developer(s):</p>
+          <p class="accented-text">Remove Developer(s):</p>
           <% if (game.developer_list.length > 1) { %>
             <div class="associated-developer-check">
               <input type="checkbox" id="toggle-all-developers-remove">
@@ -44,7 +44,7 @@
       <% } %>
       <% if (allDevs.length > 0) { %>
         <div class="edit-game-developer-add">
-          <p>Add Developer(s):</p>
+          <p class="accented-text">Add Developer(s):</p>
           <% if (allDevs.length > 1) { %>
             <div class="all-developer-check">
               <input type="checkbox" id="toggle-all-developers-add">
@@ -75,7 +75,7 @@
     <div class="edit-game-genre">
       <% if (game.genre_list.length > 0) { %>
         <div class="edit-game-genre-remove">
-          <p>Remove Genre(s):</p>
+          <p class="accented-text">Remove Genre(s):</p>
           <% if (game.genre_list.length > 1) { %>
             <div class="associated-genre-check">
               <input type="checkbox" id="toggle-all-genres-remove">
@@ -104,7 +104,7 @@
       <% } %>
       <% if (allGenres.length > 0) { %>
         <div class="edit-game-genre-add">
-          <p>Add Genre(s):</p>
+          <p class="accented-text">Add Genre(s):</p>
           <% if (allGenres.length > 1) { %>
             <div class="all-genre-check">
               <input type="checkbox" id="toggle-all-genres-add">
@@ -133,20 +133,20 @@
       <% } %>
     </div>
     <div class="edit-game-description">
-      <label for="description">Edit Description:</label>
+      <label for="description" class="accented-text">Edit Description:</label>
       <textarea name="description" id="description"><%= game.description %></textarea>
     </div>
     <div class="edit-game-release-date">
-      <label for="release-date">Edit Release Date:</label>
+      <label for="release-date" class="accented-text">Edit Release Date:</label>
       <% const formattedDate = new Date(game.release_date).toISOString().split('T')[0]; %>
       <input type="date" name="release_date" id="release-date" value="<%= formattedDate || '' %>">
     </div>
     <div class="edit-game-rating">
-      <label for="rating">Edit Rating:</label>
+      <label for="rating" class="accented-text">Edit Rating:</label>
       <input type="number" name="rating" id="rating" min="0" max="100" value="<%= game.rating %>">
     </div>
     <div class="edit-game-admin-password">
-      <label for="password">Admin Password:</label>
+      <label for="password" class="accented-text">Admin Password:</label>
       <input
         type="password"
         id="password"
@@ -157,9 +157,9 @@
         required
       >
     </div>
-    <button type="submit">Submit</button>
+    <button type="submit">SUBMIT</button>
   </form>
   <button commandfor="edit-game" command="close">
-    Close
+    CLOSE
   </button>
 </dialog>

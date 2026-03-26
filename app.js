@@ -32,7 +32,7 @@ app.use((err, req, res, next) => {
   console.error(err);
   const statusCode = err.statusCode || 500;
   res.status(statusCode).render('error', {
-    title: 'Error',
+    title: 'The Game Inventory: Error',
     message: err.message,
   });
 });

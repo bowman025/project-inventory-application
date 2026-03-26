@@ -77,6 +77,7 @@ body {
   font-style: normal;
   font-variation-settings:
     "wdth" 100;
+  scrollbar-color: var(--accent) var(--prim-bgd);
 }
 
 ul {
@@ -177,6 +178,7 @@ header {
 header.scrolled {
   background-color: rgba(var(--prim-bgd-values), 0.8);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 main {
@@ -461,27 +463,32 @@ dialog {
     transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
     overlay 0.4s allow-discrete, 
     display 0.4s allow-discrete;
-  width: clamp(250px, 80vw, 600px);
+  width: clamp(250px, 95vw, 600px);
+  max-width: 95vw;
   color: var(--text);
   background-color: var(--prim-bgd);
   border: 2px solid var(--accent);
   border-radius: 10px;
-  scrollbar-width: none;
+  scrollbar-width: thin;
   form {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: stretch;
+    gap: 15px;
+    margin-bottom: 10px;
     label, p {
       font-size: 1.4rem;
     }
-    input {
+    label {
+      text-align: center;
+    }
+    input, textarea {
       width: 100%;
       margin: 0;
       font-size: 1.4rem;
-      color: var(--accent);
+      color: var(--text);
       background-color: var(--ter-bgd);
       border: none;
       border-radius: 8px;
@@ -489,19 +496,37 @@ dialog {
       padding: 8px;
       margin-bottom: 10px;
     }
-    input:focus-visible {
+    input:focus-visible,
+    textarea:focus-visible {
       outline: 1px solid var(--accent);
     }
-    .associated-game-check {
+    textarea {
+      height: 13dvh;
+      resize: none;
+      scrollbar-width: thin;
+    }
+    .associated-game-check,
+    .associated-developer-check,
+    .associated-genre-check,
+    .all-game-check,
+    .all-developer-check,
+    .all-genre-check {
       display: flex;
       align-items: center;
       justify-content: center;
+      font-style: italic;
     }
-    .associated-game-list {
+    .associated-game-list,
+    .associated-developer-list,
+    .associated-genre-list,
+    .all-game-list,
+    .all-developer-list,
+    .all-genre-list {
+      width: 100%;
       align-self: stretch;
-      max-height: 45dvh;
-      overflow: scroll;
-      scrollbar-width: none;
+      overflow-y: auto;
+      overflow-x: hidden;
+      scrollbar-width: thin;
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -510,13 +535,34 @@ dialog {
       border-top: 1px solid var(--accent);
       border-bottom: 1px solid var(--accent);
     }
-    .associated-game {
+    .associated-game-list,
+    .associated-developer-list,
+    .associated-genre-list {
+      max-height: 19dvh;
+    }
+    .all-game-list,
+    .all-developer-list,
+    .all-genre-list {
+      max-height: 24dvh;
+    }
+    .associated-game,
+    .associated-developer,
+    .associated-genre,
+    .all-game,
+    .all-developer,
+    .all-genre {
       align-self: flex-start;
       display: flex;
       align-items: center;
       justify-content: center;
+      label {
+        text-align: start;
+        font-style: italic;
+      }
     }
+
     button {
+      align-self: center;
       cursor: pointer;
       border: none;
       border-radius: 8px;
@@ -544,7 +590,6 @@ input[type="checkbox"] {
   width: 30px;
   height: 30px;
   background-color: var(--prim-bgd);
-  border-radius: none;
   border: 1px solid var(--accent);
   cursor: pointer;
   margin-right: 10px;
@@ -575,5 +620,34 @@ dialog::backdrop {
   dialog[open] {
     opacity: 0;
     transform: translateY(20px);
+  }
+}
+
+.accented-text {
+  color: var(--accent);
+  font-weight: bold;
+}
+
+.err {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  a {
+    font-size: 1.5rem;
+  }
+  .err-msg {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    h1 {
+      text-align: center;
+    }
+    p {
+      font-size: 1.3rem;
+      text-align: center;
+    }
   }
 }
