@@ -1,3 +1,8 @@
+const { 
+  body, 
+  validationResult, 
+  matchedData, 
+} = require('express-validator');
 const db = require('../db/queries');
 const cleanIds = require('../utils/cleanIds');
 const CustomValidationError = require('../errors/CustomValidationError');
