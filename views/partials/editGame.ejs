@@ -7,9 +7,8 @@
         name="name"
         id="game"
         value="<%= game.name %>"
-        maxlength="50"
+        maxlength="100"
         minlength="1"
-        required
       >
     </div>
     <div class="edit-game-developer">
@@ -134,7 +133,7 @@
     </div>
     <div class="edit-game-description">
       <label for="description" class="accented-text">Edit Description:</label>
-      <textarea name="description" id="description"><%= game.description %></textarea>
+      <textarea name="description" id="description" maxlength="500"><%= game.description %></textarea>
     </div>
     <div class="edit-game-release-date">
       <label for="release-date" class="accented-text">Edit Release Date:</label>
