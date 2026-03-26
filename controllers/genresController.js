@@ -7,6 +7,14 @@ const db = require('../db/queries');
 const cleanIds = require('../utils/cleanIds');
 const CustomValidationError = require('../errors/CustomValidationError');
 
+const validateGenreName = body('genre')
+  .trim()
+  .isLength({ min: 1, max: 50 }).withMessage('Genre name must be between 1 and 50 characters.')
+  .escape();
+
+const validatePassword = body('password')
+  .notEmpty().withMessage('Password is required');
+
 async function genresGet(req, res, next) {
   try {
     const genres = await db.getAllGenres();
@@ -40,9 +48,15 @@ async function gamesByGenreGet(req, res, next) {
 }
 
 async function genreAddPost(req, res, next) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return next(new CustomValidationError(errors.array()[0].msg));
+  }
+
   try {
-    const { genre } = req.body;
-    await db.addGenre(genre);
+    const data = matchedData(req);
+    await db.addGenre(data.genre);
     res.redirect('/genres');
   } catch (error) {
     console.error(error);
@@ -51,16 +65,24 @@ async function genreAddPost(req, res, next) {
 }
 
 async function genreEditPost(req, res, next) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return next(new CustomValidationError(errors.array()[0].msg));
+  }
+
   try {
     const { id } = req.params;
-    const { name, password } = req.body;
-    const gameIds = cleanIds(req.body.gameIds);
-    const allGameIds = cleanIds(req.body.allGameIds);
-    const isValid = password === process.env.ADMIN_PASS;
-    if (!isValid) {
+    const data = matchedData(req);
+
+    if (data.password !== process.env.ADMIN_PASS) {
       return next(new CustomValidationError('Invalid password. Edit aborted.'));
     }
-    await db.updateGenre(id, name, gameIds, allGameIds);
+
+    const gameIds = cleanIds(req.body.gameIds);
+    const allGameIds = cleanIds(req.body.allGameIds);
+
+    await db.updateGenre(id, data.genre, gameIds, allGameIds);
     res.redirect(`/genres/${id}`);
   } catch (error) {
     console.error(error);
@@ -69,13 +91,20 @@ async function genreEditPost(req, res, next) {
 }
 
 async function genreDeletePost(req, res, next) {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return next(new CustomValidationError(errors.array()[0].msg));
+  }
+
   try {
     const { id } = req.params;
-    const { password } = req.body;
-    const isValid = password === process.env.ADMIN_PASS;
-    if (!isValid) {
+    const data = matchedData(req);
+
+    if (data.password !== process.env.ADMIN_PASS) {
       return next(new CustomValidationError('Invalid password. Deletion aborted.'));
     }
+
     await db.deleteGenre(id);
     res.redirect('/genres');
   } catch (error) {
@@ -87,7 +116,7 @@ async function genreDeletePost(req, res, next) {
 module.exports = { 
   genresGet, 
   gamesByGenreGet, 
-  genreAddPost,
-  genreEditPost,
-  genreDeletePost,
+  genreAddPost: [validateGenreName, genreAddPost],
+  genreEditPost: [validateGenreName, validatePassword, genreEditPost],
+  genreDeletePost: [validatePassword, genreDeletePost],
 };
