@@ -454,6 +454,13 @@ main {
 }
 
 dialog {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: 
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    overlay 0.4s allow-discrete, 
+    display 0.4s allow-discrete;
   width: clamp(250px, 80vw, 600px);
   color: var(--text);
   background-color: var(--prim-bgd);
@@ -553,7 +560,20 @@ input[type="checkbox"] {
   }
 }
 
+dialog[open] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 dialog::backdrop {
   background-color: rgba(var(--prim-bgd-values), 0.5);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+@starting-style {
+  dialog[open] {
+    opacity: 0;
+    transform: translateY(20px);
+  }
 }

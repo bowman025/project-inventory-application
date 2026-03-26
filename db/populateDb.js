@@ -40,10 +40,14 @@ const SQL = `
   );
 `;
 
-const client = new Client({ connectionString: argv[2] });
+const connectionString = argv[2] || process.env.DATABASE_URL;
+const client = new Client({ 
+  connectionString,
+  ssl: connectionString.includes('localhost') ? false : { rejectUnauthorized: false }
+});
 
 function cleanText(text) {
-  if (!text) return;
+  if (!text) return null;
   return text
     .replace(/<[^>]*>?/gm, '')
     .replace(/&nbsp;/g, ' ')
@@ -56,10 +60,7 @@ async function getGameIds() {
   try {
     const response = await fetch('https://steamspy.com/api.php?request=top100forever');
     const results = await response.json();
-    let appIds = [];
-    Object.keys(results).forEach(key => {
-      appIds.push(key);
-    });
+    let appIds = Object.keys(results);
     return appIds;
   } catch (error) {
     console.error(error);
@@ -70,7 +71,9 @@ async function getSteamData() {
   try {
     const gameIds = await getGameIds();
     const games = [];
-    for (const gameId of gameIds) {
+    console.log(`Starting fetch for ${gameIds.length} games...`);
+    for (let i = 0; i < gameIds.length; i++) {
+      const gameId = gameIds[i];
       const response = await fetch(`https://store.steampowered.com/api/appdetails?appids=${gameId}&l=english`);
       const result = await response.json();
       const appId = Object.keys(result)[0];
@@ -86,7 +89,11 @@ async function getSteamData() {
         games.push({ 
           steam_id: gameData.steam_appid,
           name: gameData.name, 
-          description: cleanText(gameData.short_description),
+          description: cleanText(
+            gameData.short_description 
+            || gameData.about_the_game 
+            || ''
+          ),
           release_date: finalDate,
           rating: rating,
           developers: gameData.developers,
@@ -94,6 +101,7 @@ async function getSteamData() {
           image: gameData.header_image,
           background: gameData.background,
         });
+        console.log(`[${i + 1}/${gameIds.length}] Fetched: ${gameData.name}`);
       }
       await new Promise(resolve => setTimeout(resolve, 1500));
     }
@@ -104,15 +112,16 @@ async function getSteamData() {
 }
 
 async function seed() {
-  await client.connect();
-  await client.query("SET client_encoding TO 'UTF8'");
   try {
+    const games = await getSteamData();
+    if (!games || games.length === 0) throw new Error("No games found.");
+    console.log('Game data acquired.');
+    await client.connect();
+    await client.query("SET client_encoding TO 'UTF8'");
     await client.query('BEGIN');
     console.log('Seeding started...');
     await client.query(SQL);
     console.log('Tables created.');
-    const games = await getSteamData();
-    console.log('Game data acquired.');
     for (const game of games) {
       const gameRes = await client.query(
         `INSERT INTO games (
@@ -170,11 +179,11 @@ async function seed() {
           );
         }
       }
-      console.log(`Game with id:${gameId} seeded.`);
     }
     await client.query('COMMIT');
     console.log('Seeding completed successfully.');
   } catch (error) {
+    if (client._connected) await client.query('ROLLBACK');
     console.error('Seeding failed. Rolling back: ', error);
   } finally {
     await client.end();

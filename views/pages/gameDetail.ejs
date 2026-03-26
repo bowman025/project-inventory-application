@@ -32,7 +32,7 @@
         <% }); %>
       </p>
       <p class="description">
-        <span class="emphasize">Description:</span> <%= game.description %>
+        <span class="emphasize">Description:</span> <%= game.description || "None" %>
       </p>
       <p class="release-date">
         <span class="emphasize">Released:</span> <%= game.release_date || "Unknown" %>

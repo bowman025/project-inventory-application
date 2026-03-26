@@ -1,5 +1,6 @@
 <%- include('../partials/header') %>
 <main>
+  <% if (genreName) { %>
   <div class="genre-detail">
     <h1><%= genreName %></h1>
     <div class="genre-buttons">
@@ -34,6 +35,11 @@
       <% } %>
     </div>
   </div>
+  <% } else { %>
+    <h1>Unknown Developer</h1>
+    <p>It appears that the requested genre is not in the database.</p>
+    <a href="/developers">Back to Genres</a>
+  <% } %>
   <%- include('../partials/deleteItem') %>
   <%- include('../partials/editGenre') %>
 </main>

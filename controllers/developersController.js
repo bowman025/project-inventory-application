@@ -2,7 +2,7 @@ const db = require('../db/queries');
 const cleanIds = require('../utils/cleanIds');
 const CustomValidationError = require('../errors/CustomValidationError');
 
-async function developersGet(req, res) {
+async function developersGet(req, res, next) {
   try {
     const developers = await db.getAllDevelopers();
     res.render('developers', {
@@ -11,10 +11,11 @@ async function developersGet(req, res) {
     });
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 
-async function gamesByDevGet(req, res) {
+async function gamesByDevGet(req, res, next) {
   try {
     const devId = req.params.id;
     const devName = await db.getDevName(devId);
@@ -29,16 +30,18 @@ async function gamesByDevGet(req, res) {
     });
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 
-async function developerAddPost(req, res) {
+async function developerAddPost(req, res, next) {
   try {
     const { developer } = req.body;
     await db.addDeveloper(developer);
     res.redirect('/developers');
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 
@@ -56,6 +59,7 @@ async function developerEditPost(req, res, next) {
     res.redirect(`/developers/${id}`);
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 
@@ -71,6 +75,7 @@ async function developerDeletePost(req, res, next) {
     res.redirect('/developers');
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 

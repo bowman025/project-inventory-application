@@ -2,7 +2,7 @@ const db = require('../db/queries');
 const cleanIds = require('../utils/cleanIds');
 const CustomValidationError = require('../errors/CustomValidationError');
 
-async function genresGet(req, res) {
+async function genresGet(req, res, next) {
   try {
     const genres = await db.getAllGenres();
     res.render('genres', {
@@ -10,11 +10,12 @@ async function genresGet(req, res) {
       genres: genres,
     });
   } catch (error) {
-   console.error(error); 
+   console.error(error);
+   next(error);
   }
 }
 
-async function gamesByGenreGet(req, res) {
+async function gamesByGenreGet(req, res, next) {
   try {
     const genreId = req.params.id;
     const genreName = await db.getGenreName(genreId);
@@ -29,16 +30,18 @@ async function gamesByGenreGet(req, res) {
     });
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 
-async function genreAddPost(req, res) {
+async function genreAddPost(req, res, next) {
   try {
     const { genre } = req.body;
     await db.addGenre(genre);
     res.redirect('/genres');
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 
@@ -56,6 +59,7 @@ async function genreEditPost(req, res, next) {
     res.redirect(`/genres/${id}`);
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 
@@ -71,6 +75,7 @@ async function genreDeletePost(req, res, next) {
     res.redirect('/genres');
   } catch (error) {
     console.error(error);
+    next(error);
   }
 }
 

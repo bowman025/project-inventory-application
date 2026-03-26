@@ -10,7 +10,7 @@ const {
 } = require('../controllers/gamesController');
 
 router.get('/', gamesGet);
-router.post('/add', gameAddPost);
+router.post('/', gameAddPost);
 router.get('/:id', gameGet);
 router.post('/:id/edit', gameEditPost);
 router.post('/:id/delete', gameDeletePost);

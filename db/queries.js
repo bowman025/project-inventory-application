@@ -100,7 +100,7 @@ async function getAllGamesNotByDev(id) {
 
 async function getDevName(id) {
   const { rows } = await pool.query('SELECT name FROM developers WHERE id = $1', [id]);
-  return rows[0]?.name || 'Unknown Developer';
+  return rows[0]?.name;
 }
 
 async function getAllGamesInGenre(id) {
@@ -135,25 +135,96 @@ async function getAllGamesNotInGenre(id) {
 
 async function getGenreName(id) {
   const { rows } = await pool.query('SELECT name FROM genres WHERE id = $1', [id]);
-  return rows[0]?.name || 'Unknown Genre';
+  return rows[0]?.name;
 }
 
-async function addGame(values) {
-  const {
-    steam_id,
-    name,
-    description,
-    release_date,
-    rating,
-    image,
-    background,
-  } = values;
-  await pool.query(
-    `INSERT INTO games (name, description, release_date)
-    VALUES ($1, $2, $3)`,
-    [name, description, release_date]
-  );
+async function addGame(steamId) {
+  const response = await fetch(`https://store.steampowered.com/api/appdetails?appids=${steamId}&l=english`);
+  const result = await response.json();
+
+  if (!result[steamId] || !result[steamId].success) {
+    throw new Error(`Game with Steam ID ${steamId} not found.`);
+  }
+
+  const data = result[steamId].data;
+
+  const cleanText = (text) => {
+    if (!text) return null;
+    return text
+      .replace(/<[^>]*>?/gm, '')
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/\s\s+/g, ' ')
+      .trim();
+  }
+
+  const parsedDate = new Date(data.release_date?.date);
+  const finalDate = isNaN(parsedDate) ? null : parsedDate.toISOString().split('T')[0];
+
+  const client = await pool.connect();
+
+  try {
+    await client.query('BEGIN');
+
+    const gameRes = await client.query(
+      `INSERT INTO games (steam_id, name, description, release_date, rating, image, background)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       ON CONFLICT (steam_id) DO UPDATE SET 
+         name = EXCLUDED.name, 
+         description = EXCLUDED.description, 
+         rating = EXCLUDED.rating
+       RETURNING id`,
+      [
+        data.steam_appid,
+        data.name,
+        cleanText(data.short_description || data.about_the_game || ''),
+        finalDate,
+        data.metacritic ? data.metacritic.score : null,
+        data.header_image,
+        data.background
+      ]
+    );
+    const gameId = gameRes.rows[0].id;
+
+    if (data.developers) {
+      for (const devName of data.developers) {
+        const devRes = await client.query(
+          `INSERT INTO developers (name) VALUES ($1) 
+           ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name 
+           RETURNING id`, [devName]
+        );
+        await client.query(
+          `INSERT INTO game_developers (game_id, developer_id) 
+           VALUES ($1, $2) ON CONFLICT DO NOTHING`, [gameId, devRes.rows[0].id]
+        );
+      }
+    }
+
+    if (data.genres) {
+      for (const genre of data.genres) {
+        const genRes = await client.query(
+          `INSERT INTO genres (name) VALUES ($1) 
+           ON CONFLICT (name) DO UPDATE SET name = EXCLUDED.name 
+           RETURNING id`, [genre.description]
+        );
+        await client.query(
+          `INSERT INTO game_genres (game_id, genre_id) 
+           VALUES ($1, $2) ON CONFLICT DO NOTHING`, [gameId, genRes.rows[0].id]
+        );
+      }
+    }
+
+    await client.query('COMMIT');
+    return gameId;
+
+  } catch (error) {
+    await client.query('ROLLBACK');
+    throw error;
+  } finally {
+    client.release();
+  }
 }
+
 
 async function addDeveloper(name) {
   try {

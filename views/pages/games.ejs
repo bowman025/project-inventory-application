@@ -3,7 +3,9 @@
   <div class="all-games">
     <div class="games-top">
       <h1>All Games</h1>
-      <button onclick="">ADD A GAME</button>
+      <button command="show-modal" commandfor="add-game">
+        ADD A GAME
+      </button>
     </div>
     <div class="game-grid">
       <% if (games && games.length > 0) { %>
@@ -28,5 +30,6 @@
       <% } %>
     </div>
   </div>
+  <%- include('../partials/addGame') %>
 </main>
 <%- include('../partials/footer') %>

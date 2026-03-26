@@ -1,39 +1,45 @@
 <%- include('../partials/header') %>
 <main>
-  <div class="developer-detail">
-    <h1><%= devName %></h1>
-    <div class="developer-buttons">
-      <button command="show-modal" commandfor="edit-dev">
-        EDIT
-      </button>
-      <button command="show-modal" commandfor="delete">
-        DELETE
-      </button>
-    </div>
-    <h2>Games by this developer:</h2>
-    <div class="game-grid">
-      <% if (games && games.length > 0) { %>
-        <% games.forEach(game => { %>
-          <div class="game-card" style="background-image: url('<%= game.background %>');">
-            <a href="/games/<%= game.id %>">
-              <img src="<%= game.image %>" alt="<%= game.name %>">
-            </a>
-            <h2>
+  <% if (devName) { %>
+    <div class="developer-detail">
+      <h1><%= devName %></h1>
+      <div class="developer-buttons">
+        <button command="show-modal" commandfor="edit-dev">
+          EDIT
+        </button>
+        <button command="show-modal" commandfor="delete">
+          DELETE
+        </button>
+      </div>
+      <h2>Games by this developer:</h2>
+      <div class="game-grid">
+        <% if (games && games.length > 0) { %>
+          <% games.forEach(game => { %>
+            <div class="game-card" style="background-image: url('<%= game.background %>');">
               <a href="/games/<%= game.id %>">
-                <% if (game.name.length > 38) { %>
-                  <%= game.name.substring(0, 36) %>...
-                <% }  else { %>
-                  <%= game.name %>
-                <% } %>
+                <img src="<%= game.image %>" alt="<%= game.name %>">
               </a>
-            </h2>
-          </div>
-        <% }); %>
-      <% } else { %>
-        <p>No games found for this developer.</p>
-      <% } %>
+              <h2>
+                <a href="/games/<%= game.id %>">
+                  <% if (game.name.length > 38) { %>
+                    <%= game.name.substring(0, 36) %>...
+                  <% }  else { %>
+                    <%= game.name %>
+                  <% } %>
+                </a>
+              </h2>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p>No games found for this developer.</p>
+        <% } %>
+      </div>
     </div>
-  </div>
+  <% } else { %>
+    <h1>Unknown Developer</h1>
+    <p>It appears that the requested developer is not in the database.</p>
+    <a href="/developers">Back to Developers</a>
+  <% } %>
   <%- include('../partials/deleteItem') %>
   <%- include('../partials/editDeveloper') %>
 </main>

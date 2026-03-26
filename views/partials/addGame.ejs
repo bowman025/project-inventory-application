@@ -1,144 +1,17 @@
-<dialog id="edit-game">
-  <form action="/games/add" method="post">
-    <div class="add-game-name">
-      <label for="game">Add Name:</label>
-      <input
-        type="text"
-        name="name"
-        id="game"
-        maxlength="50"
-        minlength="1"
-        required
-      >
-    </div>
-    <div class="add-game-developer">
-      <div class="edit-game-developer-remove">
-        <% if (game.developer_list.length > 0) { %>
-          <p>Remove Developer(s):</p>
-          <% if (game.developer_list.length > 1) { %>
-            <div class="associated-game-check">
-              <input type="checkbox" id="toggle-all">
-              <label class="checkbox-item select-all" for="toggle-all">
-                Select All
-              </label>
-            </div>
-          <% } %>
-          <div class="associated-developer-list">
-            <% game.developer_list.forEach(developer => { %>
-              <div class="associated-developer">
-                <input
-                  type="checkbox"
-                  name="developerIds"
-                  value="<%= developer.id %>"
-                  class="developer-checkbox"
-                  id="developer-<%= developer.id %>"
-                >
-                <label for="developer-<%= developer.id %>">
-                  <%= developer.name %>
-                </label>
-              </div>
-            <% }); %>
-          </div>
-        <% } %>
-      </div>
-      <div class="edit-game-developer-add">
-        <p>Add Developer(s):</p>
-        <div class="all-developer-list">
-          <% allDevs.forEach(dev => { %>
-            <div class="all-developer">
-              <input
-                type="checkbox"
-                name="AllDeveloperIds"
-                value="<%= dev.id %>"
-                class="developer-checkbox"
-                id="all-developer-<%= dev.id %>"
-              >
-              <label for="all-developer-<%= dev.id %>">
-                <%= dev.name %>
-              </label>
-            </div>
-          <% }); %>
-        </div>
-      </div>
-    </div>
-    <div class="edit-game-genre">
-      <div class="edit-game-genre-remove">
-        <% if (game.genre_list.length > 0) { %>
-          <p>Remove Genre(s):</p>
-          <% if (game.genre_list.length > 1) { %>
-            <div class="associated-genre-check">
-              <input type="checkbox" id="toggle-all">
-              <label class="checkbox-item select-all" for="toggle-all">
-                Select All
-              </label>
-            </div>
-          <% } %>
-          <div class="associated-genre-list">
-            <% game.genre_list.forEach(genre => { %>
-              <div class="associated-genre">
-                <input
-                  type="checkbox"
-                  name="genreIds"
-                  value="<%= genre.id %>"
-                  class="genre-checkbox"
-                  id="genre-<%= genre.id %>"
-                >
-                <label for="genre-<%= genre.id %>">
-                  <%= genre.name %>
-                </label>
-              </div>
-            <% }); %>
-          </div>
-        <% } %>
-      </div>
-      <div class="edit-game-genre-add">
-        <p>Add Genre(s):</p>
-        <div class="all-genre-list">
-          <% allGenres.forEach(genre => { %>
-            <div class="all-genre">
-              <input
-                type="checkbox"
-                name="AllGenreIds"
-                value="<%= genre.id %>"
-                class="genre-checkbox"
-                id="all-genre-<%= genre.id %>"
-              >
-              <label for="all-genre-<%= genre.id %>">
-                <%= genre.name %>
-              </label>
-            </div>
-          <% }); %>
-        </div>
-      </div>
-    </div>
-    <div class="edit-game-description">
-      <label for="description">Edit Description:</label>
-      <textarea name="description" id="description"><%= game.description %></textarea>
-    </div>
-    <div class="edit-game-release-date">
-      <label for="release-date">Edit Release Date:</label>
-      <% const formattedDate = new Date(game.release_date).toISOString().split('T')[0]; %>
-      <input type="date" name="release-date" id="release-date" value="<%= formattedDate || '' %>">
-    </div>
-    <div class="edit-game-rating">
-      <label for="rating">Edit Rating:</label>
-      <input type="number" name="rating" id="rating" min="0" max="100" value="<%= game.rating %>">
-    </div>
-    <div class="edit-game-admin-password">
-      <label for="password">Admin Password:</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        maxlength="50"
-        minlength="1"
-        placeholder="Password"
-        required
-      >
-    </div>
+<dialog id="add-game">
+  <form action="/games" method="post">
+    <p>Let's keep this simple.</p>
+    <p>Please provide a valid Steam ID and we'll take care of the rest.</p>
+    <label for="steamId">Steam ID:</label>
+    <input 
+      type="number" 
+      id="steamId" 
+      name="steamId"
+      min="1"
+      max="9999999999"
+      required
+    >
     <button type="submit">Submit</button>
   </form>
-  <button commandfor="edit-game" command="close">
-    Close
-  </button>
+  <button commandfor="add-game" command="close">Close</button>
 </dialog>
