@@ -1,7 +1,9 @@
 <%- include('../partials/header') %>
 <main>
   <div class="game-detail">
-    <img src="<%= game.image %>" alt="">
+    <div class="img-frame">
+      <img src="<%= game.image %>" alt="Game Image">
+    </div>
     <div class="game-detail-text" style="background-image: url('<%= game.background %>');">
       <h1><%= game.name %></h1>
       <p class="developers">
